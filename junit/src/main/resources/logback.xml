@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+<configuration>
+    <appender name="fileout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+    </appender>
+    <root level="trace">
+        <appender-ref ref="fileout" />
+    </root>
+</configuration>-->
+
+<!--
+<configuration>
+    <appender name="fileout" class="ch.qos.logback.core.FileAppender">
+        &lt;!&ndash;日志文件地址&ndash;&gt;
+        <file>F:/logs/my.log</file>
+        &lt;!&ndash;追加模式&ndash;&gt;
+        <append>true</append>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="trace">
+        <appender-ref ref="fileout" />
+    </root>
+</configuration>-->
+
+<configuration>
+    <property name="log_home" value="F:/logs"/>
+    <appender name="rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${log_home}/%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+            <!--日志级别过滤-->
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>trace</level>
+            </filter>
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+
+        </encoder>
+    </appender>
+
+    <root level="trace">
+        <appender-ref ref="rolling" />
+    </root>
+</configuration>
