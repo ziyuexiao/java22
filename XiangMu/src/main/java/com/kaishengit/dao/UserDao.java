@@ -20,4 +20,13 @@ public class UserDao {
         String sql = "select*from t_user where email = ?";
         return DbHelp.query(sql,new BeanHandler<>(User.class),email);
     }
+
+    public void update(User user) {
+        String sql = "update t_user set  password=?,email=?,phone=?,state=?,avatar=? where id = ?";
+        DbHelp.update(user.getPassword(),user.getEmail(),user.getPhone(),user.getState(),user.getAvatar(),user.getId());
+    }
+    public User findById(Integer id){
+        String sql = "select*from t_user where id = ?";
+        return DbHelp.query(sql,new BeanHandler<>(User.class),id);
+    }
 }
