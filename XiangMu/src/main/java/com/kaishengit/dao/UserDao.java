@@ -23,7 +23,7 @@ public class UserDao {
 
     public void update(User user) {
         String sql = "update t_user set  password=?,email=?,phone=?,state=?,avatar=? where id = ?";
-        DbHelp.update(user.getPassword(),user.getEmail(),user.getPhone(),user.getState(),user.getAvatar(),user.getId());
+        DbHelp.update(sql,user.getPassword(),user.getEmail(),user.getPhone(),user.getState(),user.getAvatar(),user.getId());
     }
     public User findById(Integer id){
         String sql = "select*from t_user where id = ?";

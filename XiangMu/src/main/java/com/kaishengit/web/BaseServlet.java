@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 public class BaseServlet extends HttpServlet {
 
     public void forword(String path,HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/views/"+path).forward(req,resp);
+        req.getRequestDispatcher("/WEB-INF/views/"+path).forward(req,resp);
     }
     public void renderTest(String str,HttpServletResponse response) throws IOException {
         response.setContentType("text/plain;UTF-8");
