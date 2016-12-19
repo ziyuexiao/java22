@@ -25,6 +25,7 @@
     <commons-codec-version>1.6</commons-codec-version>
     <commons-email-version>1.4</commons-email-version>
     <commons-lang-version>3.5</commons-lang-version>
+    <qiniu-version>7.1.0</qiniu-version>
   </properties>
 
 
@@ -112,6 +113,11 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-email</artifactId>
       <version>${commons-email-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.qiniu</groupId>
+      <artifactId>qiniu-java-sdk</artifactId>
+      <version>${qiniu-version}</version>
     </dependency>
 
   </dependencies>

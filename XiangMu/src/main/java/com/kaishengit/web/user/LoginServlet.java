@@ -21,6 +21,10 @@ import java.util.Map;
 public class LoginServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //判断当前是否有用户，并清除
+        req.getSession().removeAttribute("curr_user");
+
+
         forword("user/login.jsp",req,resp);
     }
 

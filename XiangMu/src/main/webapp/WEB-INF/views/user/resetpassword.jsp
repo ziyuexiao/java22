@@ -22,6 +22,7 @@
         </div>
 
         <form action="" class="form-horizontal" id="resetForm">
+
             <input type="hidden" name="id" value="${requestScope.user.id}">
             <input type="hidden" name="token" value="${requestScope.token}">
 

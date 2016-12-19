@@ -93,7 +93,6 @@ public class UserService {
     }
     /**
      * 根据Token激活对应的用户
-     * @param token
      */
 
     public void activeUser(String token) {
@@ -115,9 +114,6 @@ public class UserService {
     }
     /**
      * 用户登录
-     * @param username
-     * @param password
-     * @param ip
      */
 
     public User login(String username, String password, String ip) {
@@ -125,7 +121,7 @@ public class UserService {
         if(user!=null && DigestUtils.md5Hex(Config.get("user.password.salt")+password).equals(user.getPassword())){
 
             if (user.getState().equals(User.USERSTATE_ACTIVED)){
-                //记录登录日志
+                //记录登录日志,存到数据库
                 LoginLog log = new LoginLog();
                 log.setLoginIp(ip);
                 log.setT_user_id(user.getId());
@@ -215,7 +211,40 @@ public class UserService {
             user.setPassword(DigestUtils.md5Hex(Config.get("user.password.salt")+password));
             userDao.update(user);
 
+            //删除token
+            foundpasswordcache.invalidate(token);
+
             logger.info("{}重设了密码",user.getUsername());
         }
+    }
+    /**
+     * 修改用户电子邮件
+     */
+
+    public void updateEmail(User user,String email){
+        user.setEmail(email);
+        userDao.update(user);
+    }
+    /**
+     * 修改用户户密码
+     */
+    public void updatePassword(User user,String oldPassword,String newPassword){
+        if(DigestUtils.md5Hex(Config.get("user.password.salt")+oldPassword).equals(user.getPassword())){
+            newPassword = DigestUtils.md5Hex(Config.get("user.password.salt")+newPassword);
+            user.setPassword(newPassword);
+            userDao.update(user);
+        }else {
+            throw new ServiceException("原始密码错误");
+        }
+    }
+
+    /**
+     * 修改用户户头像
+     * @param user
+     * @param fileKey
+     */
+    public void updateAvatar(User user, String fileKey) {
+        user.setAvatar(fileKey);
+        userDao.update(user);
     }
 }
