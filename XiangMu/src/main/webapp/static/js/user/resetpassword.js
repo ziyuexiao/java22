@@ -40,14 +40,17 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=="success"){
-                        alert("重置密码成功");
+                        //alert("重置密码成功");
+                        swal("重置密码成功!", "You clicked the button!", "success");
                         window.location.href="/login";
                     }else {
                         alert(data.message);
                     }
                 },
                 error:function () {
-                    alert("服务器错误，重置密码失败");
+                    //alert("服务器错误，重置密码失败");
+                    sweetAlert("Oops...", "服务器错误，重置密码失败!", "error");
+
                 },
                 complete:function () {
                     $("#resetBtn").text("保存").removeAttr("disabled");

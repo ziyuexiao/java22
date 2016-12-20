@@ -32,11 +32,13 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=="success"){
-                        alert("修改成功");
+                        //alert("修改成功");
+                        swal("修改成功!", "You clicked the button!", "success");
                     }
                 },
                 error:function () {
-                    alert("服务器错误");
+                    //alert("服务器错误");
+                    sweetAlert("Oops...", "服务器错误!", "error");
                 },
                 complete:function () {
                     $("#basicBtn").text("保存").removeAttr("disabled");
@@ -99,14 +101,17 @@ $(function () {
                 },
                 success:function(data){
                     if(data.state == "success") {
-                        alert("密码修改成功，重新登录");
+                        //alert("密码修改成功，重新登录");
+                        swal("密码修改成功，重新登录!", "You clicked the button!", "success");
                         window.location.href = "/login";
                     } else {
-                        alert(data.message);
+                        //alert(data.message);
+                        sweetAlert(data.message);
                     }
                 },
                 error:function(){
-                    alert("服务器错误");
+                    //alert("服务器错误");
+                    sweetAlert("Oops...", "服务器错误!", "error");
                 },
                 complete:function(){
                     $("#passwordBtn").text("保存").removeAttr("disabled");

@@ -50,7 +50,8 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=="success"){
-                        alert("登陆成功");
+                        //alert("登陆成功");
+                        swal("登陆成功!", "You clicked the button!", "success");
                         var url = getParameterByName("redirect");
                         if(url) {
                             window.location.href = url;
@@ -58,11 +59,13 @@ $(function () {
                             window.location.href = "/home";
                         }
                     }else {
-                        alert(data.message);
+                        //alert(data.message);
+                        sweetAlert(data.message);
                     }
                 },
                 error:function () {
-                    alert("服务器错误");
+                    //alert("服务器错误");
+                    sweetAlert("Oops...", "服务器错误!", "error");
                 },
                 complete:function () {
                     $("#loginBtn").text("登陆").removeAttr("disabled");

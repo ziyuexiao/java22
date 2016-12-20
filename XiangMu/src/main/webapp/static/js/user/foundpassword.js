@@ -39,17 +39,20 @@ $(function () {
                     if(data.state=="success"){
                         var type = $("#type").val();
                         if("email"==type){
-                            alert("请查看邮件");
+                            //alert("请查看邮件");
+                            swal("请查看邮件!", "You clicked the button!", "success");
                         }else{
                             /*电话操作业务*/
                         }
 
                     }else {
-                        alert(data.message);
+                        //alert(data.message);
+                        sweetAlert(data.message);
                     }
                 },
                 error:function () {
-                    alert(data.message);
+                    //alert(data.message);
+                    sweetAlert(data.message);
                 },
                 complete:function () {
                     $("#btn").text("提交").removeAttr("disabled");
