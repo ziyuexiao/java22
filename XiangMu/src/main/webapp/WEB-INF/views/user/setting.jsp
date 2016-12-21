@@ -112,6 +112,7 @@
 <script src="/static/js/user/setting.js"></script>
 <script src="/static/js/uploader/webuploader.js"></script>
 
+
 <script type="text/template" id="bar">
     <div class="progress progress-striped active">
         <div class="bar" id="{{id}}" style="width: 40%;"></div>
@@ -147,25 +148,27 @@
         //进度条
         uploader.on("uploadProgress",function (file,percentage) {
 
-           /* var $li = $( '#'+file.id ),
-                $percent = $li.find('.progress .progress-bar');*/
-
-            var $bar = $("#"+file.id).find("#bar_"+file.id);
-            // 避免重复创建
-            /*if ( !$percent.length ) {
-                $percent = $('<div class="progress progress-striped active">' +
-                    '<div class="progress-bar" role="progressbar" style="width: 0%">' +
-                    '</div>' +
-                    '</div>').appendTo( $li ).find('.progress-bar');
-            }
-            $percent.css( 'width', percentage * 100 + '%' );*/
+         /*   var $bar = $("#"+file.id).find("#bar_"+file.id);
             if(!$bar[0]) {
                 var template = $("#bar").html();
                 template = template.replace("{{id}}","bar_"+file.id);
                 $("#"+file.id).append($(template));
             }
 
-            $bar.css( 'width', percentage * 100 + '%' );
+            $bar.css( 'width', percentage * 100 + '%' );*/
+
+            var $li = $( '#'+file.id ),
+                $percent = $li.find('.progress .progress-bar');
+
+            // 避免重复创建
+            if ( !$percent.length ) {
+                $percent = $('<div class="progress progress-striped active">' +
+                    '<div class="bar" role="progressbar" style="width: 40%;">' +
+                    '</div>' +
+                    '</div>').appendTo( $li ).find('.bar');
+            }
+            $percent.css( 'width', percentage * 100 + '%' );
+
 
         });
 

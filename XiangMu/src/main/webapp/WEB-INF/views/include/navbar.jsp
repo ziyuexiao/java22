@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-plus"></i></a>
+                        <a href="/newTopic"><i class="fa fa-plus"></i></a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bell"></i></a>
@@ -38,7 +38,7 @@
                         <a href="/setting"><i class="fa fa-cog"></i></a>
                     </li>
                     <li>
-                        <a href="logout"><i class="fa fa-sign-out"></i></a>
+                        <a href="/logout"><i class="fa fa-sign-out"></i></a>
                     </li>
                 </c:when>
                 <c:otherwise>
