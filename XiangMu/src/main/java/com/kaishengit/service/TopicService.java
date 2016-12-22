@@ -11,7 +11,9 @@ import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.StringUtils;
+import org.joda.time.DateTime;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -42,13 +44,26 @@ public class TopicService {
         topic.setTitle(title);
         topic.setContent(content);
 
+        //暂时设置最后回复时间为当前时间
+        topic.setLastreplytime(new Timestamp(new DateTime().getMillis()));
+
         Integer topicId = topicDao.save(topic);
         System.out.println(topicId);
         topic.setId(topicId);
 
-        //topicDao.save(topic);
-        return topic;
 
+
+        //更新node表的topicnum
+       Node node = nodeDao.findNodeById(t_note_id);
+       if (node != null){
+           node.setTopicnum(node.getTopicnum()+1);
+           nodeDao.update(node);
+       }else {
+           throw new ServiceException("节点不在");
+       }
+
+
+        return topic;
     }
     /**
      * 获取详情页
@@ -63,6 +78,10 @@ public class TopicService {
                 user.setAvatar(Config.get("qiniu.domain")+user.getAvatar());
                 topic.setUser(user);
                 topic.setNode(node);
+
+                //更新topic表中的clicknum字段
+                topic.setClicknum(topic.getClicknum()+1);
+                topicDao.update(topic);
 
                 return topic;
 
@@ -86,5 +105,26 @@ public class TopicService {
         reply.setUserid(user.getId());
         reply.setTopicid(Integer.valueOf(topicId));
         replyDao.addReply(reply);
+
+
+        //更新t_topic表中的replynum 和 lastreplytime字段
+        Topic topic = topicDao.findTopicById(topicId);
+        if(topic!=null){
+            topic.setReplynum(topic.getReplynum()+1);
+            topic.setLastreplytime(new Timestamp(DateTime.now().getMillis()));
+            topicDao.update(topic);
+        }else {
+            throw new ServiceException("回复主题不存在或已被删除");
+        }
+    }
+
+    /**
+     * 获取回复列表
+     * @param topicid
+     * @return
+     */
+    public List<Reply> findReplyByTopicid(String topicid) {
+        return replyDao.findReplyListByTopicid(topicid);
+
     }
 }

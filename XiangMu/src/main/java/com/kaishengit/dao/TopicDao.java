@@ -16,4 +16,8 @@ public class TopicDao {
         String sql = "select * from t_topic where id = ?";
         return  DbHelp.query(sql,new BeanHandler<>(Topic.class),topicId);
     }
+    public void update(Topic topic){
+        String sql = "update t_topic set title = ?,content = ?,clicknum = ?,favnum = ?,thankyounum = ?,replynum = ?,lastreplytime = ?,t_user_id = ?,t_note_id = ? where id = ?";
+        DbHelp.update(sql,topic.getTitle(),topic.getContent(),topic.getClicknum(),topic.getFavnum(),topic.getThankyounum(),topic.getReplynum(),topic.getLastreplytime(),topic.getT_user_id(),topic.getT_note_id(),topic.getId());
+    }
 }

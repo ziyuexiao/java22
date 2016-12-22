@@ -34,7 +34,10 @@ public class NewTopicServlet extends BaseServlet {
         //获取七牛上传的token
         Auth auth = Auth.create(Config.get("qiniu.ak"),Config.get("qiniu.sk"));
         StringMap map = new StringMap();
-        map.put("returnBody","{ \\\"success\\\": true,\\\"file_path\\\": \\\"\"+Config.get(\"qiniu.domain\")+\"${key}\\\"}");
+
+        String returnBody = "{ \"success\": true,\"file_path\": \""+Config.get("qiniu.domain")+"${key}\"}";
+        map.put("returnBody",returnBody);
+        //map.put("returnBody","{ \"success\": true,\"file_path\": \""+Config.get("qiniu.domain")+"${key}\"}");
         String token = auth.uploadToken(Config.get("qiniu.storage"),null,3600,map);
 
 

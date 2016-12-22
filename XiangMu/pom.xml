@@ -26,6 +26,7 @@
     <commons-email-version>1.4</commons-email-version>
     <commons-lang-version>3.5</commons-lang-version>
     <qiniu-version>7.1.0</qiniu-version>
+    <joda-time-version>2.9.3</joda-time-version>
   </properties>
 
 
@@ -118,6 +119,12 @@
       <groupId>com.qiniu</groupId>
       <artifactId>qiniu-java-sdk</artifactId>
       <version>${qiniu-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${joda-time-version}</version>
     </dependency>
 
   </dependencies>
