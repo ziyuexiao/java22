@@ -24,14 +24,14 @@ public class ReplyDao {
 
     public List<Reply> findReplyListByTopicid(String topicid) {
         String sql = "select tu.id,tu.username,tu.avatar,tr.* from t_user tu,t_reply tr where tu.id=tr.userid and topicid=?";
-       return DbHelp.query(sql, new AbstractListHandler<Reply>() {
+        return DbHelp.query(sql, new AbstractListHandler<Reply>() {
             @Override
-            protected Reply handleRow(ResultSet resultSet) throws SQLException {
-                Reply reply = new BasicRowProcessor().toBean(resultSet,Reply.class);
+            protected Reply handleRow(ResultSet rs) throws SQLException {
+                Reply reply = new BasicRowProcessor().toBean(rs,Reply.class);
                 User user = new User();
-                user.setAvatar(Config.get("qiniu.domain")+resultSet.getString("avatar"));
-                user.setUsername(resultSet.getString("username"));
-                user.setId(resultSet.getInt("id"));
+                user.setAvatar(Config.get("qiniu.domain") + rs.getString("avatar"));
+                user.setUsername(rs.getString("username"));
+                user.setId(rs.getInt("id"));
                 reply.setUser(user);
                 return reply;
             }

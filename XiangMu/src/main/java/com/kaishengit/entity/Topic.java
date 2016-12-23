@@ -1,5 +1,7 @@
 package com.kaishengit.entity;
 
+import org.joda.time.DateTime;
+
 import java.sql.Timestamp;
 
 /**
@@ -123,5 +125,14 @@ public class Topic {
 
     public void setT_note_id(Integer t_note_id) {
         this.t_note_id = t_note_id;
+    }
+
+    public boolean isEdit(){
+        DateTime dateTime = new DateTime(getCreatetime());
+        if (dateTime.plusMillis(5).isAfterNow()&&getReplynum()==0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

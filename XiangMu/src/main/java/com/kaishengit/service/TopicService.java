@@ -1,13 +1,7 @@
 package com.kaishengit.service;
 
-import com.kaishengit.dao.NodeDao;
-import com.kaishengit.dao.ReplyDao;
-import com.kaishengit.dao.TopicDao;
-import com.kaishengit.dao.UserDao;
-import com.kaishengit.entity.Node;
-import com.kaishengit.entity.Reply;
-import com.kaishengit.entity.Topic;
-import com.kaishengit.entity.User;
+import com.kaishengit.dao.*;
+import com.kaishengit.entity.*;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.StringUtils;
@@ -25,6 +19,7 @@ public class TopicService {
     UserDao userDao = new UserDao();
     NodeDao nodeDao = new NodeDao();
     ReplyDao replyDao = new ReplyDao();
+    FavDao favDao = new FavDao();
 
     /**
      * 获取节点
@@ -35,7 +30,7 @@ public class TopicService {
         return nodeList;
     }
     /**
-     * 添加主题
+     * 添加主题,发帖
      */
     public Topic addNewTopic(String title,String content,Integer t_user_id,Integer t_note_id){
         Topic topic = new Topic();
@@ -44,8 +39,8 @@ public class TopicService {
         topic.setTitle(title);
         topic.setContent(content);
 
-        //暂时设置最后回复时间为当前时间
-        topic.setLastreplytime(new Timestamp(new DateTime().getMillis()));
+        /*//暂时设置最后回复时间为当前时间
+        //topic.setLastreplytime(new Timestamp(new DateTime().getMillis()));*/
 
         Integer topicId = topicDao.save(topic);
         System.out.println(topicId);
@@ -83,6 +78,14 @@ public class TopicService {
                 topic.setClicknum(topic.getClicknum()+1);
                 topicDao.update(topic);
 
+              /*  //更新topic表中的thankyounum
+                topic.setThankyounum(topic.getThankyounum()+1);
+                topicDao.update(topic);
+
+
+
+*/
+
                 return topic;
 
             }else {
@@ -111,6 +114,7 @@ public class TopicService {
         Topic topic = topicDao.findTopicById(topicId);
         if(topic!=null){
             topic.setReplynum(topic.getReplynum()+1);
+            //暂时设置最后回复时间为当前时间
             topic.setLastreplytime(new Timestamp(DateTime.now().getMillis()));
             topicDao.update(topic);
         }else {
@@ -126,5 +130,41 @@ public class TopicService {
     public List<Reply> findReplyByTopicid(String topicid) {
         return replyDao.findReplyListByTopicid(topicid);
 
+    }
+
+    /**
+     * 收藏业务
+     * @param user
+     * @param topicid
+     */
+
+
+    public Fav findFavByUserIdAndTopicId(User user,String topicid) {
+        return favDao.findByTopicIdAndUserId(user.getId(),Integer.valueOf(topicid));
+    }
+
+    public void favTopic(User user, String topicid) {
+        Fav fav = new Fav();
+        fav.setUserid(user.getId());
+        fav.setTopicid(Integer.valueOf(topicid));
+        favDao.addFav(fav);
+
+        //更新topic表中的favnum
+        Topic topic = topicDao.findTopicById(topicid);
+        topic.setFavnum(topic.getFavnum()+1);
+        topicDao.update(topic);
+
+    }
+
+    public void unfavTopic(User user, String topicid) {
+        //user = user.getId();
+        favDao.deleteFav(user.getId(),topicid);
+        //更新topic表中的favnum
+        Topic topic = topicDao.findTopicById(topicid);
+        topic.setFavnum(topic.getFavnum()-1);
+        topicDao.update(topic);
+    }
+    public void updateTopic(Topic topic) {
+        topicDao.update(topic);
     }
 }
