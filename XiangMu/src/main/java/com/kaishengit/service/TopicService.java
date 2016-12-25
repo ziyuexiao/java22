@@ -1,13 +1,16 @@
 package com.kaishengit.service;
 
+import com.google.common.collect.Maps;
 import com.kaishengit.dao.*;
 import com.kaishengit.entity.*;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
+import com.kaishengit.util.Page;
 import com.kaishengit.util.StringUtils;
 import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -84,7 +87,7 @@ public class TopicService {
 
 
 
-*/
+                */
 
                 return topic;
 
@@ -166,5 +169,52 @@ public class TopicService {
     }
     public void updateTopic(Topic topic) {
         topicDao.update(topic);
+    }
+
+    /**
+     * 编辑
+     * @param title
+     * @param topicId
+     * @param content
+     * @param nodeid
+     */
+
+    public void updateTopicById(String title, String topicId, String content, String nodeid) {
+        Topic topic = topicDao.findTopicById(topicId);
+        if(topic.isEdit()){
+            topic.setTitle(title);
+            topic.setContent(content);
+            topic.setT_note_id(Integer.valueOf(nodeid));
+
+            topicDao.update(topic);
+        }else {
+            throw new ServiceException("该帖子已经不可编辑");
+        }
+    }
+
+    /**
+     * 分页
+     * @param nodeid
+     * @param pageNo
+     * @return
+     */
+
+    public Page<Topic> findAllTopics(String nodeid, Integer pageNo) {
+        HashMap<String,Object> map = Maps.newHashMap();
+        int count = 0;
+        if (StringUtils.isEmpty(nodeid)){
+            count = topicDao.count();
+        }else{
+            count = topicDao.count(nodeid);
+        }
+
+        Page<Topic> topicPage = new Page<>(count,pageNo);
+        map.put("nodeid",nodeid);
+        map.put("start",topicPage.getStart());
+        map.put("pageSize",topicPage.getPageSize());
+
+        List<Topic> topicList = topicDao.findAll(map);
+        topicPage.setItems(topicList);
+        return topicPage;
     }
 }

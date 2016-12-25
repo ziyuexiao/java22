@@ -4,8 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lenovo on 2016/12/19.
@@ -30,6 +29,27 @@ public class LoginFilter extends AbstractFilter {
         String requesturl = httpServletRequest.getRequestURI();
         if(urlList != null && urlList.contains(requesturl)) {
             if(httpServletRequest.getSession().getAttribute("curr_user") == null) {
+                Map map = httpServletRequest.getParameterMap();
+                Set paramet = map.entrySet();
+                Iterator iterator = paramet.iterator();//迭代
+                if(iterator.hasNext()){
+                    requesturl +="?";
+
+                    while (iterator.hasNext()){
+                        Map.Entry me = (Map.Entry) iterator.next();
+                        Object key = me.getKey();
+                        Object value = me.getValue();
+                        String valString[] =(String[]) value;
+                        String params = "";
+                        for (int i = 0;i<valString.length;i++){
+                            params = key + "=" + valString[i] +"&";
+                            requesturl += params;
+                        }
+                    }
+                    requesturl = requesturl.substring(0,requesturl.length()-1);
+                }
+
+
                 //去登录页面
                 httpServletResponse.sendRedirect("/login?redirect="+requesturl);
             } else {

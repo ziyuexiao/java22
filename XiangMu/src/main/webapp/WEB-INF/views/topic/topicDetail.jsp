@@ -53,15 +53,28 @@
         </div>
         <div class="topic-body">
             ${requestScope.topic.content} </div>
-        <div class="topic-toolbar">
-            <ul class="unstyled inline pull-left">
-                <li><a href="">加入收藏</a></li>
-                <li><a href="">感谢</a></li>
-                <li><a href=""></a></li>
-            </ul>
-            <ul class="unstyled inline pull-right muted">
+        <div class="topic-toolbar" >
+            <c:if test="${not empty sessionScope.curr_user}">
+                <ul class="unstyled inline pull-left" >
+                    <c:choose>
+                        <c:when test="${not empty fav}">
+                            <li><a href="javascript:;" id="favtopic">取消收藏</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="javascript:;" id="favtopic">加入收藏</a></li>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <li><a href="">感谢</a></li>
+                    <c:if test="${sessionScope.curr_user.id == topic.t_user_id and topic.edit}">
+                        <li><a href="/topicEdit?topicid=${topic.id}">编辑</a></li>
+                    </c:if>
+
+                </ul>
+            </c:if>
+            <ul class="unstyled inline pull-right muted"  atf="">
                 <li>${topic.clicknum}次点击</li>
-                <li>${topic.favnum}人收藏</li>
+                <li><span id="topicFav">${topic.favnum}</span>人收藏</li>
                 <li>${topic.thankyounum}人感谢</li>
             </ul>
         </div>
@@ -136,23 +149,14 @@
 <script src="//cdn.bootcss.com/moment.js/2.10.6/locale/zh-cn.js"></script>
 <script>
     $(function(){
+
+        <c:if test="${not empty sessionScope.curr_user}">
         var editor = new Simditor({
             textarea: $('#editor'),
             toolbar:false
             //optional options
         });
 
-        hljs.initHighlightingOnLoad();
-
-        $("#replyBtn").click(function(){
-            $("#replyForm").submit();
-        });
-        $("#topicTime").text(moment($("#topicTime").text()).fromNow());
-        $("#lastreplytime").text(moment($("#lastreplytime").text()).format("YYYY年MM月DD日 HH:mm:ss"));
-        $(".reply").text(function () {
-            var time = $(this).text();
-            return moment(time).fromNow();
-        });
 
         $(".replyLink").click(function () {
             var count = $(this).attr("rel");
@@ -161,6 +165,50 @@
             window.location.href="#reply";
 
         });
+        </c:if>
+
+        hljs.initHighlightingOnLoad();
+
+        $("#replyBtn").click(function(){
+            $("#replyForm").submit();
+        });
+
+
+        $("#favtopic").click(function(){
+            var $this = $(this);
+            var action = "";
+            if($this.text() == "加入收藏"){
+                action = "fav";
+            }else{
+                action = "unfav";
+            }
+            $.post("/topicFav",{"topicid":${topic.id},"action":action}).done(
+                function (json) {
+                    if (json.state == "success"){
+                        if(action == "fav"){
+                            $this.text("取消收藏");
+                        }else{
+                            $this.text("加入收藏");
+                        }
+                        $("#topicFav").text(json.data);
+                    }
+                }).error(function(){
+
+            })
+        });
+
+
+
+        $("#topicTime").text(moment($("#topicTime").text()).fromNow());
+        $("#lastreplytime").text(moment($("#lastreplytime").text()).format("YYYY年MM月DD日 HH:mm:ss"));
+        $(".reply").text(function () {
+            var time = $(this).text();
+            return moment(time).fromNow();
+        });
+
+
+
+
 
     });
 </script>

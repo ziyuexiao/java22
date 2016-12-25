@@ -129,7 +129,7 @@ public class Topic {
 
     public boolean isEdit(){
         DateTime dateTime = new DateTime(getCreatetime());
-        if (dateTime.plusMillis(5).isAfterNow()&&getReplynum()==0){
+        if (dateTime.plusMinutes(500).isAfterNow()&&getReplynum()==0){
             return true;
         }else {
             return false;

@@ -1,9 +1,12 @@
 package com.kaishengit.web.topic;
 
+import com.kaishengit.entity.Fav;
 import com.kaishengit.entity.Reply;
 import com.kaishengit.entity.Topic;
+import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.TopicService;
+import com.kaishengit.util.StringUtils;
 import com.kaishengit.web.BaseServlet;
 
 import javax.servlet.ServletException;
@@ -31,6 +34,13 @@ public class TopicDetailServlet extends BaseServlet {
            req.setAttribute("replyList",replyList);
 
            req.setAttribute("topic",topic);
+
+           //判断用户是否收藏该帖子
+           User user = (User) req.getSession().getAttribute("curr_user");
+           if(user!=null&& StringUtils.isNumeric(topicid)){
+               Fav fav = topicService.findFavByUserIdAndTopicId(user,topicid);
+               req.setAttribute("fav",fav);
+           }
            forword("topic/topicDetail.jsp",req,resp);
        }catch (ServiceException e){
            resp.sendError(404);
