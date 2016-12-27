@@ -23,6 +23,7 @@ public class TopicService {
     NodeDao nodeDao = new NodeDao();
     ReplyDao replyDao = new ReplyDao();
     FavDao favDao = new FavDao();
+    NotifyDao notifyDao = new NotifyDao();
 
     /**
      * 获取节点
@@ -81,13 +82,6 @@ public class TopicService {
                 topic.setClicknum(topic.getClicknum()+1);
                 topicDao.update(topic);
 
-              /*  //更新topic表中的thankyounum
-                topic.setThankyounum(topic.getThankyounum()+1);
-                topicDao.update(topic);
-
-
-
-                */
 
                 return topic;
 
@@ -123,6 +117,21 @@ public class TopicService {
         }else {
             throw new ServiceException("回复主题不存在或已被删除");
         }
+
+        //增加消息通知
+        if(!user.getId().equals(topic.getT_user_id())){
+            Notify notify = new Notify();
+            notify.setUserid(topic.getT_user_id());
+            System.out.println(topic.getT_user_id());
+            notify.setState(Notify.STATE_UNREAD);
+            System.out.println(Notify.STATE_UNREAD);
+            //notify.setContent("你的帖子有了新的回复，请查看");
+            notify.setContent("<a href=\"/topicDetail?topicid="+topic.getId()+"\">"+ topic.getTitle()+"</a>");
+           // notify.setContent("您的主题 <a href=\"/topicDetail?topicid="+topic.getId()+"\">topic.getTitle()</a> 有了新的回复,请查看.");
+          //  System.out.println("你的帖子<a href=\"/topicDetail?topicid="+topic.getId()+"\">["+ topic.getTitle()+"]</a>有了新的回复，请查看");
+            notifyDao.save(notify);
+        }
+
     }
 
     /**
@@ -170,6 +179,17 @@ public class TopicService {
     public void updateTopic(Topic topic) {
         topicDao.update(topic);
     }
+    /**
+     * 感谢业务
+     */
+    /*  //更新topic表中的thankyounum
+                topic.setThankyounum(topic.getThankyounum()+1);
+                topicDao.update(topic);
+
+
+
+                */
+
 
     /**
      * 编辑
@@ -181,12 +201,23 @@ public class TopicService {
 
     public void updateTopicById(String title, String topicId, String content, String nodeid) {
         Topic topic = topicDao.findTopicById(topicId);
+        //Integer lastNodeId = topic.getNodeid();
         if(topic.isEdit()){
             topic.setTitle(title);
             topic.setContent(content);
             topic.setT_note_id(Integer.valueOf(nodeid));
 
-            topicDao.update(topic);
+            /*topicDao.update(topic);
+            if (lastNodeId != Integer.valueOf(nodeid)) {
+                //更新node表，使得原來的node的topicnum -1
+                Node lastNode = nodeDao.findNodeById(lastNodeId);
+                lastNode.setTopicnum(lastNode.getTopicnum() - 1);
+                nodeDao.update(lastNode);
+                //更新node表，使得新的node的topicnum + 1
+                Node newNode = nodeDao.findNodeById(Integer.valueOf(nodeid));
+                newNode.setTopicnum(newNode.getTopicnum() + 1);
+                nodeDao.update(newNode);
+            }*/
         }else {
             throw new ServiceException("该帖子已经不可编辑");
         }
@@ -217,4 +248,6 @@ public class TopicService {
         topicPage.setItems(topicList);
         return topicPage;
     }
+
+
 }

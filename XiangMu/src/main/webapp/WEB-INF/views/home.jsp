@@ -32,6 +32,7 @@
                 <li class="${empty param.nodeid?'active':''}"><a href="/home">全部</a></li>
                 <c:forEach items="${nodeList}" var="node">
                     <li class="${node.id == param.nodeid?'active':'' }"><a href="/home?nodeid=${node.id}">${node.nodename}</a></li>
+
                 </c:forEach>
 
             </ul>
@@ -74,6 +75,7 @@
 </div>
 <script src="/static/js/jquery-1.11.1.js"></script>
 <script src="/static/js/jquery.twbsPagination.min.js"></script>
+<script src="/static/js/user/notify.js"></script>
 
 <script>
     $(function(){
@@ -84,7 +86,9 @@
             last:'末页',
             prev:'上一页',
             next:'下一页',
-            href: '?p={{number}}&node=${param.node}'
+
+            href:"?nodeid=${param.nodeid}&p={{number}}"
+
         });
 
     });

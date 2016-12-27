@@ -43,7 +43,7 @@
 <div class="container">
     <div class="box">
         <ul class="breadcrumb" style="background-color: #fff;margin-bottom: 0px;">
-            <li><a href="#">首页</a> <span class="divider">/</span></li>
+            <li><a href="/home">首页</a> <span class="divider">/</span></li>
             <li class="active">${requestScope.topic.node.nodename}</li>
         </ul>
         <div class="topic-head">
@@ -65,7 +65,7 @@
                         </c:otherwise>
                     </c:choose>
 
-                    <li><a href="">感谢</a></li>
+                    <li><a href="javascript:;" id="thanktopic">感谢</a></li>
                     <c:if test="${sessionScope.curr_user.id == topic.t_user_id and topic.edit}">
                         <li><a href="/topicEdit?topicid=${topic.id}">编辑</a></li>
                     </c:if>
@@ -193,10 +193,23 @@
                         $("#topicFav").text(json.data);
                     }
                 }).error(function(){
-
+                alert("收藏数据异常");
             })
         });
 
+        /*$("#thanktopic").click(function () {
+            $.ajax({
+                type:"post",
+                url:"/topicThank",
+                data:{"topicid":${topic.id}},
+                success:function () {
+
+                },
+                error:function () {
+                    alert("感谢时数据异常");
+                }
+            });
+        });*/
 
 
         $("#topicTime").text(moment($("#topicTime").text()).fromNow());

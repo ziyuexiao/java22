@@ -3,17 +3,21 @@ package com.kaishengit.service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.kaishengit.dao.LoginLogDao;
+import com.kaishengit.dao.NotifyDao;
 import com.kaishengit.dao.UserDao;
 import com.kaishengit.entity.LoginLog;
+import com.kaishengit.entity.Notify;
 import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.EmailUtil;
 import com.kaishengit.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +33,7 @@ public class UserService {
 
     private UserDao userDao = new UserDao();
     private LoginLogDao loginLogDao = new LoginLogDao();
+    private NotifyDao notifyDao = new NotifyDao();
     //发送激活邮件的Token缓存
     private static Cache<String,String> cache = CacheBuilder.newBuilder()
             .expireAfterWrite(1, TimeUnit.HOURS)
@@ -246,5 +251,38 @@ public class UserService {
     public void updateAvatar(User user, String fileKey) {
         user.setAvatar(fileKey);
         userDao.update(user);
+    }
+
+    /**
+     * 获取消息列表
+     * @param user
+     * @return
+     */
+    public List<Notify> findNotifyListByUser(User user) {
+        return notifyDao.findNotifyByUserid(user.getId());
+    }
+    /**
+     * 获取状态为1时的数量
+     */
+
+   public int findcountBystateanduser(User user){
+       return notifyDao.count1(user.getId());
+   }
+    public int findcountByuser(User user){
+        return notifyDao.count2(user.getId());
+    }
+    /**
+     * 更改消息状态
+     * @param ids
+     */
+
+    public void updateNotifyStateByIds(String ids) {
+        String idArray[] = ids.split(",");
+        for(int i=0;i<idArray.length;i++){
+            Notify notify = notifyDao.findNotifyByid(idArray[i]);
+            notify.setState(Notify.STATE_READED);
+            notify.setReadtime(new Timestamp(DateTime.now().getMillis()));
+            notifyDao.update(notify);
+        }
     }
 }

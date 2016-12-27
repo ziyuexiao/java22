@@ -21,7 +21,8 @@ public class NewReplyServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String topicId = req.getParameter("topicid");
         String content = req.getParameter("content");
-        User user = (User) req.getSession().getAttribute("curr_user");
+        //User user = (User) req.getSession().getAttribute("curr_user");
+        User user = getCurrentUser(req);
         TopicService topicService = new TopicService();
         if (StringUtils.isNumeric(topicId)){
             try {
