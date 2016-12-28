@@ -127,6 +127,17 @@
       <version>${joda-time-version}</version>
     </dependency>
 
+     <!-- <dependency>
+          <groupId>com.github.pusuo</groupId>
+          <artifactId>patchca</artifactId>
+          <version>0.5.0</version>
+      </dependency>-->
+      <!--<dependency>
+          <groupId>maven_repo.com.github.pusuo</groupId>
+          <artifactId>patchca</artifactId>
+          <version>d3e2b0b5ba</version>
+      </dependency>-->
+
   </dependencies>
   <build>
     <finalName>XiangMu</finalName>

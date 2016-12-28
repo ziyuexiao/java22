@@ -50,6 +50,13 @@
                     <input type="password" name="password" id="password">
                 </div>
             </div>
+
+           <%-- 验证码：<input type="text" name="code"/>
+            <br />
+            <a href="javascript:;" id="change">
+                <img id="img" src="/yanzheng.png" alt="" />
+            </a>--%>
+
             <div class="control-group">
                 <label class="control-label"></label>
                 <div class="controls">
@@ -77,6 +84,14 @@
 
 <script src="/static/js/sweetalert.min.js"></script>
 
+<script>
+   /* $(function(){
+        $("#change").click(function(){
+            $("#img").removeAttr("src").attr("src","/yanzheng.png?_="+new Date().getTime())
+        });
+    });*/
+
+</script>
 
 </body>
 </html>

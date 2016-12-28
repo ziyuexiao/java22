@@ -32,6 +32,7 @@ public class LoginServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        //String code = req.getParameter("code");
 
         //获取客户端IP
         String ip = req.getRemoteAddr();
@@ -45,7 +46,16 @@ public class LoginServlet extends BaseServlet {
             //将登录成功的用户放入Session
             HttpSession session = req.getSession();
             session.setAttribute("curr_user",user);
+           // String sessionCode =(String)session.getAttribute("yanzheng");
 
+           /* if(code!=null && code.equals(sessionCode)){
+                session.removeAttribute("yanzheng");
+
+            }else{
+                req.setAttribute("message", "验证码错误");
+
+                forword("user/login.jsp",req,resp);
+            }*/
             result.put("state","success");
         } catch (ServiceException ex) {
             result.put("state","error");
@@ -54,4 +64,17 @@ public class LoginServlet extends BaseServlet {
 
         renderJson(result,resp);
     }
+
+   /* //验证验证码是否正确
+    HttpSession session = req.getSession();
+    String sessionCode =(String)session.getAttribute("yanzheng");
+
+		if(code!=null && code.equals(sessionCode)){
+        session.removeAttribute("yanzheng");
+
+    }else{
+        req.setAttribute("message", "验证码错误");
+
+        forword("user/login.jsp",req,resp);
+    }*/
 }

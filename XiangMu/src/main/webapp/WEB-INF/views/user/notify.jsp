@@ -128,7 +128,7 @@
             }
             $.post("/notifyRead",{"ids":ids.join(",")},function (json) {
                 if (json == "success"){
-                    window.history.go(0);
+                    window.history.go(0);//刷新当前页面
                 }
             });
         });
