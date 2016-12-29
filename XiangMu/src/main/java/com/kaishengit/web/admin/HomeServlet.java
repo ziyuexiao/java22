@@ -1,5 +1,9 @@
 package com.kaishengit.web.admin;
 
+import com.kaishengit.entity.TopicAndReplyCount;
+import com.kaishengit.service.TopicService;
+import com.kaishengit.util.Page;
+import com.kaishengit.util.StringUtils;
 import com.kaishengit.web.BaseServlet;
 
 import javax.servlet.ServletException;
@@ -15,6 +19,12 @@ import java.io.IOException;
 public class HomeServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String p = req.getParameter("p");
+        Integer pageNo = StringUtils.isNumeric(p)?Integer.valueOf(p):1;
+        Page<TopicAndReplyCount> page = new TopicService().getTopicAndReplyNumByDayList(pageNo);
+
+        req.setAttribute("page",page);
+
         forword("admin/first.jsp",req,resp);
     }
 }

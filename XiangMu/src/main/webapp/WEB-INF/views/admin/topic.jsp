@@ -40,6 +40,15 @@
                 <td>${topic.replynum}</td>
                 <td>${topic.lastreplytime}</td>
                 <td>
+                    <select name="nodeid" id="nodeid">
+                       <%-- <option value="">选择节点</option>--%>
+                        <c:forEach items="${nodeList}" var="node">
+                            <option ${topic.t_note_id == node.id?'selected':''} value="${node.id}">${node.nodename}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td>
+                    <a href="javascript:;" rel="${topic.id}" class="update">修改</a>
                     <a href="javascript:;" rel="${topic.id}" class="del">删除</a>
                 </td>
             </tr>
@@ -65,6 +74,26 @@
             prev:'上一页',
             next:'下一页',
             href: '?p={{number}}'
+        });
+        $(".update").click(function(){
+            var id = $(this).attr("rel");
+            var nodeid = $("#nodeid").val();
+            $.ajax({
+                url:"/admin/topicUpdate",
+                type:"post",
+                data:{"id":id,"nodeid":nodeid},
+                success:function(data){
+                    if(data == 'success') {
+                        alert("修改成功!");
+                        window.history.go(0);
+                    } else {
+                        swal(data);
+                    }
+                },
+                error:function(){
+                    swal("服务器异常,修改失败!");
+                }
+            });
         });
         $(".del").click(function () {
             var id = $(this).attr("rel");

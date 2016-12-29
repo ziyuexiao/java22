@@ -269,4 +269,30 @@ public class TopicService {
         }
 
     }
+
+    /**
+     * 修改帖子节点
+     * @param topicid
+     * @param nodeid
+     */
+    public void updateTopicNode(String topicid, String nodeid) {
+        Topic topic = topicDao.findTopicById(topicid);
+        topic.setT_note_id(Integer.valueOf(nodeid));
+        topicDao.update(topic);
+    }
+
+    /**
+     * 获取主题数和回复数
+     * @param pageNo
+     * @return
+     */
+    public Page<TopicAndReplyCount> getTopicAndReplyNumByDayList(Integer pageNo) {
+
+        int count = topicDao.countTopicByDay();//获得了日期数
+        Page<TopicAndReplyCount> page = new Page<>(count,pageNo);
+        List<TopicAndReplyCount> countLit =  topicDao.getTopicAndReplyNumList(page.getStart(),page.getPageSize());
+        page.setItems(countLit);
+        return page;
+
+    }
 }

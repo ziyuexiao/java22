@@ -28,4 +28,9 @@ public class NodeDao {
         String sql = "select * from t_node where nodename = ?";
         return DbHelp.query(sql,new BeanHandler<>(Node.class),nodename);
     }
+
+    public void delByid(String id) {
+        String sql = "delete from t_node where id = ?";
+        DbHelp.update(sql,id);
+    }
 }

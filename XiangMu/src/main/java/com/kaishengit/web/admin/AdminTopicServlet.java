@@ -1,5 +1,6 @@
 package com.kaishengit.web.admin;
 
+import com.kaishengit.entity.Node;
 import com.kaishengit.entity.Topic;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.AdminService;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by lenovo on 2016/12/28.
@@ -26,6 +28,9 @@ public class AdminTopicServlet extends BaseServlet {
 
         TopicService topicService = new TopicService();
         Page<Topic> page = topicService.findAllTopics("",pageNum);
+
+        List<Node> nodeList = topicService.findAllNode();
+        req.setAttribute("nodeList",nodeList);
         req.setAttribute("page",page);
 
         forword("admin/topic.jsp",req,resp);

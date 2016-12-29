@@ -11,13 +11,16 @@ import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.EmailUtil;
+import com.kaishengit.util.Page;
 import com.kaishengit.util.StringUtils;
+import com.kaishengit.vo.Uservo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -283,6 +286,42 @@ public class UserService {
             notify.setState(Notify.STATE_READED);
             notify.setReadtime(new Timestamp(DateTime.now().getMillis()));
             notifyDao.update(notify);
+        }
+    }
+
+    /**
+     * 获取用户列表
+     * @param pageNo
+     * @return
+     */
+    public Page<Uservo> findUserList(Integer pageNo) {
+        Integer count = userDao.count();
+        Page<Uservo> page = new Page<>(count,pageNo);
+        List<User> userList = userDao.findAlluser(page);
+        List<Uservo> uservoList = new ArrayList<>();
+
+        for (User user:userList){
+            Uservo userVo = userDao.findUservo(user.getId());
+            uservoList.add(userVo);
+        }
+        page.setItems(uservoList);
+        return page;
+
+    }
+
+    /**
+     * 修改用户状态
+     * @param userid
+     * @param userstate
+     */
+
+    public void updateUserstate(String userid, Integer userstate) {
+        if(StringUtils.isNumeric(userid)){
+            User user = userDao.findById(Integer.valueOf(userid));
+            user.setState(userstate);
+            userDao.update(user);
+        }else {
+            throw new ServiceException("参数异常");
         }
     }
 }

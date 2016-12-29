@@ -10,6 +10,13 @@ import com.kaishengit.util.StringUtils;
  */
 public class NodeService {
     NodeDao nodeDao = new NodeDao();
+
+    /**
+     * 检验节点是否已经存在
+     * @param nodeid
+     * @param nodename
+     * @return
+     */
     public String validateNodeName(String nodeid, String nodename) {
         Node node = nodeDao.findNodeById(Integer.valueOf(nodeid));
         if (node.getNodename().equals(nodename)){
@@ -23,7 +30,11 @@ public class NodeService {
         return "false";
     }
 
-
+    /**
+     * 修改节点
+     * @param nodeid
+     * @param nodename
+     */
     public void updateNode(String nodeid, String nodename) {
         if (StringUtils.isNumeric(nodeid) && StringUtils.isNotEmpty(nodename)) {
             Node node = nodeDao.findNodeById(Integer.valueOf(nodeid));
@@ -32,5 +43,22 @@ public class NodeService {
         } else {
             throw new ServiceException("参数异常");
         }
+    }
+
+    /**
+     * 删除节点
+     * @param id
+     */
+
+    public void delNodeByid(String id) throws ServiceException {
+        Node node = nodeDao.findNodeById(Integer.valueOf(id));
+
+        if (node.getTopicnum()!=null){
+            System.out.println(node.getTopicnum());
+            throw new ServiceException("该节点下有主题，不能删除");
+        }else {
+            nodeDao.delByid(id);
+        }
+
     }
 }

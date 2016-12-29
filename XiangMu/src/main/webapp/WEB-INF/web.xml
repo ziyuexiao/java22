@@ -24,7 +24,11 @@
         <filter-class>com.kaishengit.web.filter.LoginFilter</filter-class>
         <init-param>
             <param-name>validateurl</param-name>
-            <param-value>/setting,/newTopic,/topicDetail</param-value>
+            <param-value>/setting,/newTopic,/topicDetail,/notity</param-value>
+        </init-param>
+        <init-param>
+            <param-name>validateAdminUrl</param-name>
+            <param-value>/admin/topic,/admin/home,/admin/user,/admin/node,/admin/nodeUpdate,/admin/nodeDel</param-value>
         </init-param>
     </filter>
     <filter-mapping>
