@@ -22,6 +22,9 @@ public class ValidatenodeServlet extends BaseServlet {
         nodename= StringUtils.toUtf8(nodename);
         NodeService nodeService = new NodeService();
         String res = nodeService.validateNodeName(nodeid,nodename);
+
         renderTest(res,resp);
+
+
     }
 }

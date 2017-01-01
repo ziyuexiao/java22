@@ -34,13 +34,13 @@
                 <td>${uservo.createtime}</td>
                 <td>${uservo.lastlogintime}</td>
                 <td>${uservo.loginip}</td>
-                <td>
+                <%--<td>
                     <a href="javascript:;" id="update" rel="${uservo.userid},${uservo.userstate}">${uservo.userstate == '1'?'禁用':'恢复'}</a>
-                </td>
-               <%-- <td>
+                </td>--%>
+                <td>
                     <a href="javascript:;" class="update" onClick="update(${uservo.userid},${uservo.userstate})"
                        rel="${uservo.userstate},${uservo.userid}">${uservo.userstate == '1'?'禁用':'恢复'}</a>
-                </td>--%>
+                </td>
             </tr>
         </c:forEach>
 
@@ -66,7 +66,7 @@
             href: '?p={{number}}'
         });
     });
-    document.querySelector("#update").onclick=function () {
+   /* document.querySelector("#update").onclick=function () {
         $.post("/admin/user",{"userid":userid,"userstate":userstate},function (json) {
             if(json.state=='success'){
                 alert("修改成功");
@@ -76,8 +76,8 @@
             }
 
         });
-    }
-    /*function update(userid,userstate){
+    }*/
+    function update(userid,userstate){
         $.post("/admin/user",{"userid":userid,"userstate":userstate},function(json){
             if(json.state=='success'){
                 alert("修改成功");
@@ -86,7 +86,7 @@
                 alert(json.message)
             }
         });
-    }*/
+    }
 </script>
 </body>
 </html>

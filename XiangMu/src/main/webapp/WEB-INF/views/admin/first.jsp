@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>管理系统首页</title>
@@ -31,7 +32,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${page.items}" var="count">
+        <c:forEach items="${page.items}" var="TopicAndReplyCount">
             <tr>
                 <td>${TopicAndReplyCount.time}</td>
                 <td>${TopicAndReplyCount.topicnum}</td>

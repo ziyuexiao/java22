@@ -33,4 +33,9 @@ public class NodeDao {
         String sql = "delete from t_node where id = ?";
         DbHelp.update(sql,id);
     }
+
+    public void savenode(String nodename) {
+        String sql = "insert into t_node(nodename) values(?)";
+        DbHelp.update(sql,nodename);
+    }
 }

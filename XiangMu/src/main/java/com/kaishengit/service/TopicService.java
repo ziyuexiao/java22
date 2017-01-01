@@ -201,14 +201,14 @@ public class TopicService {
 
     public void updateTopicById(String title, String topicId, String content, String nodeid) {
         Topic topic = topicDao.findTopicById(topicId);
-        //Integer lastNodeId = topic.getNodeid();
+        Integer lastNodeId = topic.getT_note_id();
         if(topic.isEdit()){
             topic.setTitle(title);
             topic.setContent(content);
             topic.setT_note_id(Integer.valueOf(nodeid));
 
-            /*topicDao.update(topic);
-            if (lastNodeId != Integer.valueOf(nodeid)) {
+           topicDao.update(topic);
+             if (lastNodeId != Integer.valueOf(nodeid)) {
                 //更新node表，使得原來的node的topicnum -1
                 Node lastNode = nodeDao.findNodeById(lastNodeId);
                 lastNode.setTopicnum(lastNode.getTopicnum() - 1);
@@ -217,7 +217,7 @@ public class TopicService {
                 Node newNode = nodeDao.findNodeById(Integer.valueOf(nodeid));
                 newNode.setTopicnum(newNode.getTopicnum() + 1);
                 nodeDao.update(newNode);
-            }*/
+            }
         }else {
             throw new ServiceException("该帖子已经不可编辑");
         }
@@ -295,4 +295,6 @@ public class TopicService {
         return page;
 
     }
+
+
 }

@@ -5,6 +5,8 @@ import com.kaishengit.entity.Node;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.StringUtils;
 
+import java.util.List;
+
 /**
  * Created by lenovo on 2016/12/28.
  */
@@ -29,6 +31,7 @@ public class NodeService {
         }
         return "false";
     }
+
 
     /**
      * 修改节点
@@ -61,4 +64,22 @@ public class NodeService {
         }
 
     }
+
+    /**
+     * 增加节点
+     * @param nodename
+     */
+
+    public void addNode( String nodename) {
+
+        Node node = nodeDao.findNodeByName(nodename);
+        if (node!=null){
+            throw new ServiceException("该节点已存在");
+        }else {
+            nodeDao.savenode(nodename);
+        }
+
+    }
+
+
 }
