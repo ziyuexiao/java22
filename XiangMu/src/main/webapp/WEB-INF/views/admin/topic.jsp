@@ -83,11 +83,11 @@
                 type:"post",
                 data:{"id":id,"nodeid":nodeid},
                 success:function(data){
-                    if(data == 'success') {
+                    if(data.state == 'success') {
                         alert("修改成功!");
                         window.history.go(0);
                     } else {
-                        swal(data);
+                        swal(data.message);
                     }
                 },
                 error:function(){

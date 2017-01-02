@@ -31,7 +31,8 @@ public class AdminTopicUpdateServlet extends BaseServlet {
             result = new JsonResult("参数异常");
 
         }
-        renderJson(result,resp);
+       renderJson(result,resp);
+        //renderTest("success",resp);
     }
 
 }
