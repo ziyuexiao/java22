@@ -26,7 +26,7 @@ public class ValidateEmailServlet extends BaseServlet {
             User currentuser = getCurrentUser(req);
 
             if(currentuser!=null){
-                if(currentuser.getEmail().equals("email")){
+                if(currentuser.getEmail().equals(email)){
                     renderTest("true",resp);
                     return;
                 }
@@ -35,7 +35,7 @@ public class ValidateEmailServlet extends BaseServlet {
         }
 
         UserService userService = new UserService();
-        User user = userService.findByEmail("email");
+        User user = userService.findByEmail(email);
         if (user == null){
             renderTest("true",resp);
         }else {
