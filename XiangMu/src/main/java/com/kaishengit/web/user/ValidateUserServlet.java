@@ -18,13 +18,14 @@ public class ValidateUserServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
+        String username = req.getParameter("username"); //req.getParameter("username");
 
         //处理url中的中文问题
-        username = StringUtils.toUtf8("username");
+        username = StringUtils.toUtf8(username);
+        System.out.println(username);
 
         UserService userService = new UserService();
-        boolean result = userService.validateUserName("username");
+        boolean result = userService.validateUserName(username);
 
         if (result){
             renderTest("true",resp);

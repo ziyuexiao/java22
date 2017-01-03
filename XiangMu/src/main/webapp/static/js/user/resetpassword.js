@@ -40,16 +40,16 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=="success"){
-                        //alert("重置密码成功");
-                        swal("重置密码成功!", "You clicked the button!", "success");
+                        alert("重置密码成功");
+                        //swal("重置密码成功!", "You clicked the button!", "success");
                         window.location.href="/login";
                     }else {
                         alert(data.message);
                     }
                 },
                 error:function () {
-                    //alert("服务器错误，重置密码失败");
-                    sweetAlert("Oops...", "服务器错误，重置密码失败!", "error");
+                    alert("服务器错误，重置密码失败");
+                    //sweetAlert("Oops...", "服务器错误，重置密码失败!", "error");
 
                 },
                 complete:function () {

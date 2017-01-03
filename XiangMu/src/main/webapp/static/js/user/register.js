@@ -70,20 +70,21 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=="success"){
-                        //alert("注册成功，请去邮箱激活");
-                        swal("注册成功，请去邮箱激活!", "You clicked the button!", "success");
+                        alert("注册成功，请去邮箱激活");
+                        //swal("注册成功，请去邮箱激活!", "You clicked the button!", "success");
 
+                        window.location.href = "/login";
                     }else {
-                        //alert(data.message);
-                        sweetAlert(data.message);
+                        alert(data.message);
+                        //sweetAlert(data.message);
                     }
                 },
                 error:function () {
-                   // alert("服务器错误");
-                    sweetAlert("Oops...", "服务器错误!", "error");
+                    alert("服务器错误");
+                    //sweetAlert("Oops...", "服务器错误!", "error");
                 },
                 complete:function () {
-                    $("#regBtn").text("注册").removeAttr()("disabled");
+                    $("#regBtn").text("注册").removeAttr("disabled");
                 }
             });
         }

@@ -75,7 +75,7 @@
             <ul class="unstyled inline pull-right muted"  atf="">
                 <li>${topic.clicknum}次点击</li>
                 <li><span id="topicFav">${topic.favnum}</span>人收藏</li>
-                <li>${topic.thankyounum}人感谢</li>
+                <li>${topic.clicknum}人感谢</li>
             </ul>
         </div>
     </div>

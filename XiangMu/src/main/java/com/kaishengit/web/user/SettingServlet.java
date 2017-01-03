@@ -71,8 +71,16 @@ public class SettingServlet extends BaseServlet {
         try {
             userService.updatePassword(user, oldPassword, newPassword);
 
-            JsonResult result = new JsonResult();
-            result.setState(JsonResult.SUCCESS);
+           /* JsonResult result = new JsonResult();
+            //result.setState(JsonResult.SUCCESS);
+
+            result.setState(JsonResult.SUCCESS);*/
+
+            Map<String,Object> result = Maps.newHashMap();
+
+            result.put("state","success");
+            renderJson(result,resp);
+
 
             renderJson(result,resp);
         } catch (ServiceException ex) {

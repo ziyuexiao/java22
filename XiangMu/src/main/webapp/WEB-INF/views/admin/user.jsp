@@ -83,7 +83,7 @@
                 alert("修改成功");
                 window.history.go(0);
             }else{
-                alert(json.message)
+                alert(json.message);
             }
         });
     }
