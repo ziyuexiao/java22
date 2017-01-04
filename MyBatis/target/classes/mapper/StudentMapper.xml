@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.StudentMapper">
+    <select id="findByid"  resultMap="studentMap">
+
+        SELECT student.id,studentname,schoolid,schoolname
+        FROM student
+        INNER JOIN school ON student.schoolid = school.id
+        WHERE student.id = #{id}
+
+
+
+    </select>
+    <select id="findbyschoolid" resultType="Student">
+        SELECT*FROM student WHERE schoolid = #{schoolId}
+
+    </select>
+    <!--配置结果集映射-->
+   <resultMap id="studentMap" type="Student">
+       <id column="id" property="id"/>
+       <result column="studentname" property="studentname"/>
+       <result column="schoolid" property="schoolid"/>
+
+       <association property="school" javaType="School" column="schoolid" >
+           <id column="schoolid" property="id"/>
+           <result column="schoolname" property="schoolname"/>
+
+       </association>
+
+
+   </resultMap>
+
+
+
+
+</mapper>

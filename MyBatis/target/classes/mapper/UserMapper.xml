@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.UserMapper">
+
+    <select id="findByid" parameterType="int" resultType="User">
+        SELECT*FROM user3 WHERE id = #{id}
+    </select>
+    <select id="findAll"  resultType="User">
+        SELECT*FROM user3
+    </select>
+    <!--
+       useGeneratedKeys:true 表示使用自动增长的主键
+       keyProperty:id 将自动增长的主键赋值给parameterType对应类型的id属性
+   -->
+    <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user3(username,address) VALUES (#{username},#{address})
+    </insert>
+
+    <update id="update" parameterType="User">
+        UPDATE user3 SET username = #{username},address=#{address} where id = #{id}
+    </update>
+
+    <delete id="del" parameterType="int">
+        DELETE FROM user3 where id = #{id}
+    </delete>
+
+
+
+</mapper>
