@@ -1,13 +1,23 @@
 package com.kaishengit.pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by lenovo on 2017/1/4.
  */
-public class User {
+public class User implements Serializable  {
     private Integer id;
     private String username;
     private String tel;
     private String address;
+
+    public User() {
+    }
+
+    public User(String username, String address) {
+        this.username = username;
+        this.address = address;
+    }
 
     public Integer getId() {
         return id;

@@ -27,5 +27,15 @@
      <select id="findByid" resultType="School">
          SELECT * FROM school WHERE id = #{id}
      </select>
+    <!--N+1-->
+    <select id="findAll" resultMap="allMap">
+        SELECT *FROM school
+    </select>
+    <resultMap id="allMap" type="School">
+        <id column="schoolid" property="id"/>
+        <result column="schoolname" property="schoolname"/>
+        <collection property="studentList" ofType="Student" column="id"
+                    select="com.kaishengit.mapper.StudentMapper.findByschoolid"/>
+    </resultMap>
 
 </mapper>

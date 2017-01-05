@@ -34,4 +34,19 @@ public class SchoolMapperTestCase {
 
         sqlSession.close();
     }
+
+    @Test
+    public void findAll(){
+        SqlSession sqlSession = SqlSessionFactoryUtil.getSqlSession();
+        SchoolMapper schoolMapper = sqlSession.getMapper(SchoolMapper.class);
+        List<School> schoolList = schoolMapper.findAll();
+        for (School school:schoolList){
+            System.out.println(school);
+            List<Student> studentList = school.getStudentList();
+            for (Student student:studentList){
+                System.out.println(student);
+            }
+        }
+        sqlSession.close();
+    }
 }

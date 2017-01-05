@@ -22,7 +22,7 @@
         <environment id="development">
             <!--事务管理器-->
             <transactionManager type="JDBC" />
-
+            <!--数据库连接池-->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver" />
                  <property name="url" value="jdbc:mysql:///db_22"/>
@@ -38,5 +38,7 @@
         <mapper resource="mapper/UserMapper.xml" />
         <mapper resource="mapper/SchoolMapper.xml"/>
         <mapper resource="mapper/StudentMapper.xml"/>
+
+        <mapper class="com.kaishengit.mapper.AccountMapper"/>
     </mappers>
 </configuration>

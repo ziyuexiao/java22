@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface StudentMapper {
     Student findByid(Integer id);
-    List<Student> findByschoolid(Integer schoolId);
+    List<Student> findByschoolid(Integer schoolId);/*一对多时常用*/
+    List<Student> findAll();
 }
