@@ -47,14 +47,14 @@ public class UserServiceImpl implements UserService {
     public void setProperties(Properties properties) {
         this.properties = properties;
     }
-
+*/
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-*/
-    public UserServiceImpl(UserDao userDao) {
+
+    /*public UserServiceImpl(UserDao userDao) {
         this.userDao=userDao;
-    }
+    }*/
 
     @Override
     public void save() {
@@ -66,8 +66,12 @@ public class UserServiceImpl implements UserService {
         userDao.update();
     }
 
-
-
-
-
+    @Override
+    public int getNum() {
+        System.out.println("getNum method...");
+       /* if (1==1){
+            throw new RuntimeException("故意引发异常通知");
+        }*/
+        return 100;
+    }
 }

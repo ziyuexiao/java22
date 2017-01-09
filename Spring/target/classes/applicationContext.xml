@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:p="http://www.springframework.org/schema/p"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
     <!--
        autowire: constructor 先根据构造方法参数的名称去Spring中找被注入的对象，
        如果找不到再根据构造方法参数的类型去Spring中找被注入的对象
@@ -30,11 +32,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
        autowire: constructor 先根据构造方法参数的名称去Spring中找被注入的对象，
        如果找不到再根据构造方法参数的类型去Spring中找被注入的对象
    -->
-    <bean id="userservice" class="com.kaishengit.service.impl.UserServiceImpl" autowire="constructor"/>
+    <!--<bean id="userservice" class="com.kaishengit.service.impl.UserServiceImpl" autowire="constructor"/>-->
 
-    <!--<bean id="userservice" class="com.kaishengit.service.impl.UserServiceImpl">-->
+    <bean id="userservice" class="com.kaishengit.service.impl.UserServiceImpl">
        <!--set注入方式1-->
-        <!--<property name="userDao" ref="UserDaoImpl"/>-->
+        <property name="userDao" ref="UserDaoImpl"/>
         <!--set注入方式2-->
         <!--<property name="userDao">
             <ref bean="UserDaoImpl"/>
@@ -79,13 +81,31 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <!--根据构造方法参数的索引，从0开始-->
         <!--<constructor-arg index="0" ref="UserDaoImpl"/>-->
 
-
-
-    <!--</bean>-->
+    </bean>
 
     <!--<bean id="userservice" class="com.kaishengit.service.impl.UserServiceImpl" p:userDao-ref="UserDaoImpl"/>-->
 
 
+    <!--通知类-->
+    <bean id="aopAspect" class="com.kaishengit.aop.AopAspect"/>
+    <aop:config>
+        <!--引用通知类-->
+        <aop:aspect ref="aopAspect">
+            <!--切入点表达式-->
+            <aop:pointcut id="pt" expression="execution(* com.kaishengit.service..*.*(..))"/>
+            <!--环绕通知-->
+            <aop:around method="arroundAdvice" pointcut-ref="pt"/>
+           <!-- &lt;!&ndash;前置通知&ndash;&gt;
+            <aop:before method="beforeAdvice" pointcut-ref="pt"/>
+            &lt;!&ndash;后置通知&ndash;&gt;
+            <aop:after-returning method="afterAdvice" pointcut-ref="pt" returning="result"/>
+            &lt;!&ndash;异常通知&ndash;&gt;
+            <aop:after-throwing method="exceptionAdvice" pointcut-ref="pt" throwing="e"/>
+            &lt;!&ndash;最终通知&ndash;&gt;
+            <aop:after method="finallyAdvice" pointcut-ref="pt"/>-->
+
+        </aop:aspect>
+    </aop:config>
 
 
 
