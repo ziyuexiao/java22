@@ -18,6 +18,11 @@
                                 expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
+    <!--高级应用-->
+    <mvc:annotation-driven/>
+
+    <!--静态资源不经过中央控制器-->
+    <mvc:default-servlet-handler/>
 
     <!--视图解析器-->
     <bean id="viewResolver"
@@ -29,7 +34,10 @@
     </bean>
 
 
-
+    <!--文件上传的视图解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000000"/>
+    </bean>
 
 
 </beans>
