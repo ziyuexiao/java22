@@ -104,6 +104,7 @@
 <script>
 
     $(function () {
+        /*分页是为了减少数据库压力*/
         $("#pagination").twbsPagination({
             totalPages:${page.totalPage},
             visiblePages:5,
