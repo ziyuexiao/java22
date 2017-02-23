@@ -26,8 +26,6 @@
     <jsp:include page="../../include/sider.jsp">
         <jsp:param name="menu" value="business_device_rent"/>
     </jsp:include>
-
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
@@ -146,6 +144,8 @@
         </section>
         <!-- /.content -->
     </div>
+    <!-- Content Wrapper. Contains page content -->
+
     <!-- /.content-wrapper -->
 
     <div class="modal fade" id="myModal">
@@ -247,7 +247,7 @@
 
         /*上传*/
         var uploder = WebUploader.create({
-            swf : "js/uploader/Uploader.swf",
+            swf:"/static/plugins/uploader/Uploader.swf",
             server: "/file/upload",
             pick: '#picker',
             auto : true,
@@ -331,7 +331,7 @@
                     type:"post",
                     data:JSON.stringify(json),//将json转为字符串
                     contentType:"application/json;charset=UTF-8",
-                      success:function (data) {
+                    success:function (data) {
                         if(data.status == 'success') {
                             layer.confirm("保存成功",{btn:['继续添加','打印合同']},function(){
                                 /*点击  继续添加  执行该方法*/
@@ -343,7 +343,7 @@
                         }else {
                             layer.msg(data.message);
                         }
-                    },
+                      },
                     error:function () {
                         layer.msg("服务器异常，稍后再试");
                     }

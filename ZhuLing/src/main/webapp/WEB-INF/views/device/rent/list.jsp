@@ -140,7 +140,7 @@
             layer.confirm("确定要将合同修改为已完成吗",function (index) {
                 $.post("/device/rent/state/change",{"id":id}).done(function (resp) {
                     if (resp.state == "success"){
-                        table.ajax.reload();
+                        table.ajax.reload();//当不是第一页时table.ajax.reload(false,null);
                     }
                 }).error(function () {
                     layer.msg("服务器忙，请稍后再试");

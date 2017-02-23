@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.WorkerDispatchMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_worker_dispatch(companyname, companytel, address, linkman, persontel, cardnum, startdate, enddate, totalday, totalprice, lastcost, precost,createuser,serialnumber)
+        VALUES
+        (#{companyname},#{companytel},#{address},#{linkman},#{persontel},#{cardnum},#{startdate},#{enddate},#{totalday},#{totalprice},#{lastcost},#{precost},#{createuser},#{serialnumber})
+    </insert>
+    <update id="updateCost">
+        UPDATE t_worker_dispatch SET totalprice = #{totalprice},precost = #{precost},lastcost = #{lastcost} where id= #{id}
+    </update>
+    <update id="updateState">
+        UPDATE t_worker_dispatch SET state = #{state} where id = #{id}
+    </update>
+    <select id="findWorkerDispatchBySerialnumber" resultType="com.kaishengit.pojo.WorkerDispatch">
+        SELECT *FROM t_worker_dispatch WHERE serialnumber = #{serialnumber}
+    </select>
+    <select id="findWorkerDispatchByid" resultType="com.kaishengit.pojo.WorkerDispatch">
+        SELECT *FROM t_worker_dispatch WHERE id = #{id}
+    </select>
+    <select id="findWorkerDispatchByParam" resultType="com.kaishengit.pojo.WorkerDispatch">
+        SELECT *FROM t_worker_dispatch ORDER BY id DESC
+        limit ${start},${length}
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        SELECT count(*) FROM t_worker_dispatch
+    </select>
+    <select id="countBySearchParam" resultType="java.lang.Long">
+        SELECT *FROM t_worker_dispatch
+        <where>
+            <if test="workername != null and workername != ''">
+                workername like concat('%',#{worername},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

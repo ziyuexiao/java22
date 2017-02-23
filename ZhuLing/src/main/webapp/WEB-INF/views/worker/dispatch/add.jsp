@@ -45,33 +45,39 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>租赁公司名称</label>
+                                <label>外包公司名称</label>
                                 <input type="text" class="form-control" id="companyName" tabindex="1"><%--tabindex="1" 指定tab键的功能--%>
                             </div>
                             <div class="form-group">
                                 <label>法人代表</label>
                                 <input type="text" class="form-control" id="linkMan" tabindex="4">
                             </div>
-
                             <div class="form-group">
-                                <label>佣金金额</label>
-                                <input type="text" class="form-control" id="totalPrice" readonly>
+                                <label>开始日期</label>
+                                <input type="text" class="form-control" id="startDate" readonly>
                             </div>
 
+                            <div class="form-group">
+                                <label>佣金金额:</label>
+                                {{totalprice}}
+                            </div>
                         </div>
                         <div class="col-md-4">
-
-                            <div class="form-group">
-                                <label>电话</label>
-                                <input type="text" class="form-control" id="personTel" tabindex="5">
-                            </div>
                             <div class="form-group">
                                 <label>地址</label>
                                 <input type="text" class="form-control" id="address" tabindex="2">
                             </div>
                             <div class="form-group">
-                                <label>预付款</label>
-                                <input type="text" class="form-control" id="preCost" readonly>
+                                <label>电话</label>
+                                <input type="text" class="form-control" id="personTel" tabindex="5">
+                            </div>
+                            <div class="form-group">
+                                <label>结束日期</label>
+                                <input type="text" class="form-control" id="endDate" tabindex="7">
+                            </div>
+                            <div class="form-group">
+                                <label>预付款:</label>
+                                {{preCost}}
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -84,16 +90,19 @@
                                 <input type="text" class="form-control" id="cardNum" tabindex="6">
                             </div>
                             <div class="form-group">
-                                <label>尾款</label>
-                                <input type="text" class="form-control" id="lastCost" readonly>
+                                <label>总天数</label>
+                                <input type="text" class="form-control" id="totalDays" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>尾款:</label>
+                                {{lastCost}}
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
 
+            </div>
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">工作类别</h3>
@@ -128,6 +137,10 @@
                 </div>
             </div>
 
+            <!-- /.box -->
+
+
+
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">合同扫描件</h3>
@@ -156,7 +169,7 @@
                 <div class="modal-body">
                     <form action="">
                         <div class="form-group">
-                            <input type="hidden" id="workername">
+                            <input type="hidden" id="workerName">
                             <label>工种名称</label>
                             <select id="workerid" style="width: 300px;" class="form-control">
                                 <option value="">选择工种</option>
@@ -198,6 +211,7 @@
 <script src="/static/plugins/vue.js"></script>
 <script src="/static/plugins/layer/layer.js"></script>
 <script>
+    var fileArray = [];
     $(function () {
         $("#workerid").select2();
         $("#workerid").change(function () {
@@ -210,6 +224,7 @@
                     success:function (response) {
                         if(response.status=="success"){
                             var worker = response.data;//获取根据id查询后返回的对象
+                            $("#workerName").val(worker.workername);
                             $("#workerCurrNum").val(worker.workercurrnum);
                             $("#workerPrice").val(worker.workerprice);
 
@@ -223,16 +238,129 @@
                 });
             }
         });
+        //租赁日期，默认今天
+        $("#startDate").val(moment().format("YYYY-MM-DD"));//moment插件
+        //归还日期
+        $("#endDate").datepicker({//datepicker插件帮忙出现日历选择
+            format: "yyyy-mm-dd",
+            language: "zh-CN",
+            autoclose: true,//选择后日历自动消失
+            startDate:moment().add(1,'days').format("YYYY-MM-DD")
+        }).on("changeDate",function (e) {//datepicker中带有的计算时间间隔的方法
+            var startDay = moment();
+            var endDay = moment(e.format(0,'yyyy-mm-dd'));
+            var days = endDay.diff(startDay,'days')+1;
+            $("#totalDays").val(days);
+        });
+
+        var uploder = WebUploader.create({
+            swf : "/static/plugins/uploader/Uploader.swf",
+            server: "/worker/dispatch/upload",
+            pick: '#picker',
+            auto : true,
+            fileVal:'file'
+        });
+        uploder.on("uploadSuccess",function(file,response){
+            layer.msg("文件上传成功");
+            var html = "<li>"+response.data.sourceFileName+"</li>";//服务端返回的是json，因此用response.data
+            $("#fileList").append(html);
+            var json = {
+                sourcename : response.data.sourceFileName,
+                newname : response.data.newFileName
+            };
+            fileArray.push(json);
+        });
+        uploder.on("uploadError",function () {
+            layer.msg("服务器错误，稍后再试！！");
+        });
     });
     var app = new Vue({
         el:"#app",
         data: {
             workerArray:[]
         },
-        method:{
+        methods:{
             addWorker:function () {
                 var id = $("#workerid").val();
+                //判断数组中是否存在当前的工种，有则数量累加
+                var flag = false;
+                for (var i=0;i<this.$data.workerArray.length;i++){
+                    var item = this.$data.workerArray[i];
+                    if(item.id == id){
+                        item.workernum = parseFloat(item.workernum) + parseFloat($("#dispatchNum").val());
+                        item.totalprice = parseFloat(item.workernum)*parseFloat($("#workerPrice").val());
+                        flag = true;
+                        break;
+                    }
+                }
+                //如果没有则添加新JSON对象
+                if(!flag){
+                    var json = {};
+                    json.id = id;
+                    json.workername=$("#workerName").val();
+                    json.workerprice=$("#workerPrice").val();
+                    json.workernum=$("#dispatchNum").val();
+                    json.totalprice = parseFloat(json.workerprice) * parseFloat(json.workernum);
+
+                    this.$data.workerArray.push(json);
+                }
+            },
+            saveContract : function () {
+                var json = {
+                    workerArray: app.$data.workerArray,
+                    fileArray: fileArray,
+                    companyName: $("#companyName").val(),
+                    companyTel: $("#companyTel").val(),
+                    address: $("#address").val(),
+                    linkMan: $("#linkMan").val(),
+                    personTel: $("#personTel").val(),
+                    cardNum: $("#cardNum").val(),
+                    startDate : $("#startDate").val(),
+                    endDate : $("#endDate").val(),
+                    totalDays : $("#totalDays").val()
+                };
+                $.ajax({
+                    url:"/worker/dispatch/new",
+                    type:"post",
+                    data:JSON.stringify(json),//将json转为字符串
+                    contentType:"application/json;charset=UTF-8",
+                    success:function (data) {
+                        if(data.status == 'success') {
+                            layer.confirm("保存成功",{btn:['继续添加','打印合同']},function(){
+                                /*点击  继续添加  执行该方法*/
+                                window.history.go(0);
+                            },function(){
+                                /*点击  打印合同  执行该方法*/
+                                window.location.href = "/worker/dispatch/"+data.data;//data从服务端传过来的对象，是流水号
+                            });
+                        }else {
+                            layer.msg(data.message);
+                        }
+                    },
+                    error:function () {
+                        layer.msg("服务器异常，稍后再试");
+                    }
+                });
             }
+
+        },
+        computed:{
+            totalprice : function(){
+                var result = 0;
+                for(var i = 0;i < this.$data.workerArray.length;i++) {
+                    var item = this.$data.workerArray[i];
+                    result += item.totalprice;
+                }
+                return result;
+            },
+            preCost : function () {
+                return this.totalprice*0.3;
+            },
+
+            lastCost : function () {
+                return this.totalprice-this.preCost;
+            }
+
         }
     });
 

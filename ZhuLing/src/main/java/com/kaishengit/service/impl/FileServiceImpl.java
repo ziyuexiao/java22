@@ -29,6 +29,7 @@ public class FileServiceImpl implements FileService {
     public String uploadFile(String originalFileName, String contentType, InputStream inputStream) {
         //文件上传后存放的路径
         File savaDir = new File(filePath);
+        System.out.println(filePath);
         if(!savaDir.exists()){
             savaDir.mkdirs();// 创建此抽象路径名指定的目录，包括所有必需但不存在的父目录。
         }

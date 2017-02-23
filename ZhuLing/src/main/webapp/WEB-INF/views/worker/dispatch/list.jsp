@@ -1,13 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
   User: lenovo
-  Date: 2017/2/18
-  Time: 15:12
-  To change this template use File | Settings | File Templates.
---%>
-<%--
-  Created by IntelliJ IDEA.
-  User: lenovo
   Date: 2017/2/16
   Time: 17:18
   To change this template use File | Settings | File Templates.
@@ -19,7 +12,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>劳务派遣</title>
     <%@include file="../../include/css.jsp"%>
-
+    <link rel="stylesheet" href="/static/plugins/datatables/jquery.dataTables.css">
+    <link rel="stylesheet" href="/static/plugins/datatables/extensions/FixedHeader/css/dataTables.fixedHeader.min.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -27,144 +21,50 @@
 
     <%@include file="../../include/header.jsp"%>
     <jsp:include page="../../include/sider.jsp">
-        <jsp:param name="menu" value="business_worker_dispatch"/>
+        <jsp:param name="menu" value="business_device_rent"/>
     </jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <h1>
+        <section class="content">
 
-                    <small></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> 业务</a></li>
-                    <li><a href="/worker/dispatch/add">劳务外包</a></li>
-                    <li class="active">业务流水</li>
-                </ol>
-            </section>
+            <!-- Default box -->
+            <div class="box box-primary box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">劳务派遣合同列表</h3>
 
-            <!-- Main content -->
-            <section class="content">
-
-                <!-- Default box -->
-                <div class="box">
-                    <div class="box-header witd-border">
-                        <h3 class="box-title">劳务外包流水</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-minus"></i></button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                <i class="fa fa-times"></i></button>
-                        </div>
+                    <div class="box-tools pull-right">
+                        <a href="/worker/dispatch/add" class="btn btn-primary"><i class="fa fa-plus"></i></a>
                     </div>
-                    <div class="box-body">
-                        <div class="box">
-                            <div id="filtrate-box" class="screen-condition scd01"><!-- 筛选开始 -->
-                                <form action="" class="form-inline">
-                                    <div class="form-group form-marginR">
-                                        <label for="exampleInputName2">流水号:</label>
-                                        <input type="text" class="form-control form-angle input-sm" id="exampleInputName2" placeholder="">
-                                    </div>
-                                    <div class="form-group form-marginR">
-                                        <label for="exampleInputEmail2">用人单位:</label>
-                                        <input type="text" class="form-control form-angle input-sm" id="exampleInputName2" placeholder="">
-                                    </div>
-                                    <div class="form-group form-marginR">
-                                        <label for="exampleInputName2">状态:</label>
-                                        <!-- <div class="input-group"> -->
-                                        <select class="form-control form-angle input-sm" id="select_Type">
-                                            <option value="1">完成</option>
-                                            <option value="2">未完成</option>
-                                        </select>
-                                        <input type="hidden" name="workFlowType" id="workFlowType">
-                                        <!-- </div> -->
-                                    </div>
-                                    <div class="form-group form-marginR">
-                                        <label for="exampleInputName2">起止时间:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon form-angle input-sm"><i class="fa fa-calendar"></i></div>
-                                            <input type="text" class="form-control form-angle form_datetime input-sm" name="createDate" id="exampleInputName2" >
-                                        </div> -
-                                        <div class="input-group">
-                                            <div class="input-group-addon form-angle input-sm"><i class="fa fa-calendar"></i></div>
-                                            <input type="text" class="form-control form-angle form_datetime input-sm" name="createDate" id="exampleInputName2" >
-                                        </div>
-                                    </div>
-                                    <a type="submit" class="btn btn-default btn-sm">查询</a>
-                                </form>
-                            </div><!-- 筛选结束 -->
-                            <div class="box-body">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>流水号</th>
-                                        <th>需求公司</th>
-                                        <th>公司地址</th>
-                                        <th>公司电话</th>
-                                        <th>法人代表</th>
-                                        <th>电话号码</th>
-                                        <th>身份证号</th>
-                                        <th>创建时间</th>
-                                        <th>状态</th>
-                                        <th>总佣金</th>
-                                        <th>合同</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#" class="detail">3001</a></td>
-                                        <td>河南建业</td>
-                                        <td>河南郑州金水区81号</td>
-                                        <td>0371-89456321</td>
-                                        <td>胡八一</td>
-                                        <td>15026458956</td>
-                                        <td>410523195806024536</td>
-                                        <td>2016-10-10</td>
-                                        <td>未完成</td>
-                                        <td>10000.00</td>
-                                        <td><a href="#">下载</a></td>
-                                        <td><a href="#" class="detail">详情</a>&nbsp<a href="#">完成</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#" class="detail">3001</a></td>
-                                        <td>河南建业</td>
-                                        <td>河南郑州金水区81号</td>
-                                        <td>0371-89456321</td>
-                                        <td>胡八一</td>
-                                        <td>15026458956</td>
-                                        <td>410523195806024536</td>
-                                        <td>2016-10-10</td>
-                                        <td>完成</td>
-                                        <td>10000.00</td>
-                                        <td><a href="#">下载</a></td>
-                                        <td><a href="#" class="detail">详情</a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <!-- /.box-body -->
-                            <div class="box-footer clearfix">
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    <li><a href="#">&laquo;</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">&raquo;</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /.box -->
-                    </div>
-                    <!-- /.box-body -->
-
                 </div>
-                <!-- /.box -->
+                <div class="box-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>流水号</th>
+                            <th>外包公司</th>
+                            <th>公司地址</th>
+                            <th>公司电话</th>
+                            <th>开始日期</th>
+                            <th>结束日期</th>
+                            <th>法人代表</th>
+                            <th>电话号码</th>
+                            <th>身份证号码</th>
+                            <th>创建时间</th>
+                            <th>状态</th>
+                            <th>总佣金</th>
+                            <th>#</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
 
-            </section>
-            <!-- /.content -->
-        </div>
+        </section>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -172,6 +72,97 @@
 </div>
 
 <%@include file="../../include/js.jsp"%>
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js"></script>
+<script src="/static/plugins/layer/layer.js"></script>
+<script>
+    $(function () {
+        var table = $(".table").DataTable({
+            /*让每页显示固定的数据*/
+            "lengthChange":false,
+            "pageLength":20,
+            /*指定要去服务端处理*/
+            "serverSide": true,
+            /*数据使用ajax的方式去哪个服务端处理*/
+            "ajax":{
+                "url":"/worker/dispatch/loading",
+                "type":"get"
+            },
+            "searching":false,//不使用自带的搜索
+            "order":[[0,'desc']],//默认第几列排序方式
+            "ordering": false,//默认排序方式不管用
+            "autoWidth": false,//
+            /*传入的data的对照关系*/
+            "columns":[
+                {"data":"id","name":"id"},
+                {"data":function (row) {
+                    if (row.serialnumber){
+                        return "<a href='/device/rent/"+row.serialnumber+"'>"+row.serialnumber+"</a>"
+                    }else {
+                        return "";//让页面上该栏不显示，否者会显示null
+                    }
+                }},
+                {"data":"companyname"},
+                {"data":"address"},
+                {"data":"companytel"},
+                {"data":"startdate"},
+                {"data":"enddate"},
+                {"data":"linkman"},
+                {"data":"persontel"},
+                {"data":"cardnum"},
+                {"data":"state"},
+                {"data":"createtime"},
+                {"data":"totalprice"},
+                {"data": function (row) {
+                        if (row.state) {
+                            return "";
+                        } else {
+                            return "<a href='javascript:;' rel='" + row.id + "' class='btn btn-xs btn-default checkBtn'> <i class='fa fa-check'></i> 完成</a>";
+                        }
+                    }
+                }
+            ],
+            /*定义列的特征*/
+            "columnDefs":[
+                {targets:[0],visible: false},//第0列不显示
+            ],
+            /*定义中文*/
+            "language":{
+                "search": "搜索:",
+                "zeroRecords":    "没有匹配的数据",
+                "lengthMenu":     "显示 _MENU_ 条数据",
+                "info":           "显示从 _START_ 到 _END_ 条数据 共 _TOTAL_ 条数据",
+               /* "infoFiltered":   "(从 _MAX_ 条数据中过滤得来)",*/
+                "loadingRecords": "加载中...",
+                "processing":     "处理中...",
+                "paginate": {
+                    "first":      "首页",
+                    "last":       "末页",
+                    "next":       "下一页",
+                    "previous":   "上一页"
+                }
+            }
+        });
+       /* new $.fn.dataTable.FixedHeader(table);*///固定网页头
+        //将合同变为完成状态，页面上的值都是后来添上的，对其进行操作时要使用事件委托
+        $(document).delegate(".checkBtn","click",function () {
+            var id = $(this).attr("rel");
+            layer.confirm("确定要将合同修改为已完成吗",function (index) {
+                $.post("/worker/dispatch/state/change",{"id":id}).done(function (resp) {
+                    if (resp.state == "success"){
+                        table.ajax.reload();
+                    }
+                }).error(function () {
+                    layer.msg("服务器忙，请稍后再试");
+                });
+                layer.close(index);
+            });
+
+        });
+
+
+    });
+</script>
 </body>
 </html>
 

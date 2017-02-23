@@ -18,16 +18,16 @@
                     <i class="fa fa-circle-o"></i> <span>劳务派遣</span>
                 </a>
             </li>
-            <li class="treeview">
-                <a href="#">
+            <li class="treeview ${param.menu == 'business_pan' ? 'active' : ''}">
+                <a href="/pan">
                     <i class="fa fa-circle-o"></i> <span>网盘系统</span>
                 </a>
             </li>
             <shiro:hasRole name="money">
                 <li class="header">财务模块</li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-circle-o"></i> <span>财务报表</span> <i class="fa fa-angle-left pull-right"></i>
+                <li class="treeview ${param.menu == 'business_finance' ? 'active' : ''}" >
+                    <a href="/finance/dayreport">
+                        <i class="fa fa-circle-o"></i> <span>财务报表</span>
                     </a>
                 </li>
             </shiro:hasRole>

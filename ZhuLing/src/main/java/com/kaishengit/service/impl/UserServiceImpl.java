@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveNewUser(User user) {
+
         user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
         userMapper.save(user);
     }

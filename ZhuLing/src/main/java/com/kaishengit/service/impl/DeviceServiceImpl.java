@@ -152,7 +152,7 @@ public class DeviceServiceImpl implements DeviceService {
             System.out.println(docs);
             DeviceRentDocs rentDocs = new DeviceRentDocs();
 
-            rentDocs.setId(deviceRent.getId());
+            //rentDocs.setId(deviceRent.getId());
             rentDocs.setSourcename(docs.getSourcename());
             rentDocs.setNewname(docs.getNewname());
             rentDocs.setRentid(deviceRent.getId());
