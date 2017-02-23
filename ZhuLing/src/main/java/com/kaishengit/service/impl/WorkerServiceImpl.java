@@ -3,15 +3,13 @@ package com.kaishengit.service.impl;
 import com.google.common.collect.Lists;
 import com.kaishengit.dto.WorkerDispatchDto;
 import com.kaishengit.exception.ServiceException;
-import com.kaishengit.mapper.WorkerDispatchDetailMapper;
-import com.kaishengit.mapper.WorkerDispatchDocsMapper;
-import com.kaishengit.mapper.WorkerDispatchMapper;
-import com.kaishengit.mapper.WorkerMapper;
+import com.kaishengit.mapper.*;
 import com.kaishengit.pojo.*;
 import com.kaishengit.service.WorkerService;
 import com.kaishengit.shiro.ShiroUtil;
 import com.kaishengit.util.db.SerialNumberUtil;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +40,8 @@ public class WorkerServiceImpl implements WorkerService{
     private WorkerDispatchDetailMapper detailMapper;
     @Autowired
     private WorkerDispatchDocsMapper docsMapper;
+    @Autowired
+    private FinanceMapper financeMapper;
     @Value("${upload.path}")
     private String fileSavePath;
     @Override
@@ -129,6 +129,18 @@ public class WorkerServiceImpl implements WorkerService{
             docsMapper.batchSave(dispatchDocsList);
         }
         //4,写入流水
+        Finance finance = new Finance();
+        finance.setCreateuser(ShiroUtil.getCurrentUserName());
+        finance.setType(Finance.TYPE_IN);
+        finance.setCreatedate(DateTime.now().toString("yyyy-MM-dd"));
+        finance.setModule("劳务派遣");
+        finance.setMoney(precost);
+        finance.setSerialnumber(SerialNumberUtil.getSerialNumber());
+        finance.setState(Finance.STATE_NO);
+        finance.setMark("预付款");
+        finance.setModuleserialnumber(workerDispatch.getSerialnumber());
+
+        financeMapper.save(finance);
         return workerDispatch.getSerialnumber();
 
     }
@@ -237,8 +249,22 @@ public class WorkerServiceImpl implements WorkerService{
 
     @Override
     public void changeRentState(Integer id) {
+        //1,将合同修改为已完成
         WorkerDispatch workerDispatch = findWorkerDispatchByid(id);
         workerDispatch.setState("已完成");
         workerDispatchMapper.updateState(workerDispatch);
+        //2,向财务模块添加尾款记录
+        Finance finance = new Finance();
+        finance.setCreateuser(ShiroUtil.getCurrentUserName());
+        finance.setType(Finance.TYPE_IN);
+        finance.setCreatedate(DateTime.now().toString("yyyy-MM-dd"));
+        finance.setModule("劳务派遣");
+        finance.setMoney(workerDispatch.getLastcost());
+        finance.setSerialnumber(SerialNumberUtil.getSerialNumber());
+        finance.setState(Finance.STATE_NO);
+        finance.setMark("合同尾款");
+        finance.setModuleserialnumber(workerDispatch.getSerialnumber());
+
+        financeMapper.save(finance);
     }
 }

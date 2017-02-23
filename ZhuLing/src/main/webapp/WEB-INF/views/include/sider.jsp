@@ -25,10 +25,21 @@
             </li>
             <shiro:hasRole name="money">
                 <li class="header">财务模块</li>
-                <li class="treeview ${param.menu == 'business_finance' ? 'active' : ''}" >
-                    <a href="/finance/dayreport">
-                        <i class="fa fa-circle-o"></i> <span>财务报表</span>
+                <li class="treeview ${fn:startsWith(param.menu,'finance_')? 'active' : ''}" >
+                    <a href="">
+                        <i class="fa fa-circle-o"></i> <span>财务报表</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
+                    <ul class="treeview-menu">
+                        <li class="${param.menu == 'finance_day' ? 'active' : ''}">
+                            <a href="/finance/day"><i class="fa fa-circle-o"></i> 日报</a>
+                        </li>
+                        <li class="${param.menu == 'finance_month' ? 'active' : ''}">
+                            <a href=""><i class="fa fa-circle-o"></i> 月报</a>
+                        </li>
+                        <li class="${param.menu == 'finance_year' ? 'active' : ''}">
+                            <a href=""><i class="fa fa-circle-o"></i> 年报</a>
+                        </li>
+                    </ul>
                 </li>
             </shiro:hasRole>
             <shiro:hasRole name="admin">
