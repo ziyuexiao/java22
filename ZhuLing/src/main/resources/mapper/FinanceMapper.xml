@@ -36,4 +36,29 @@
     <select id="findByCreatedate" resultType="com.kaishengit.pojo.Finance">
         SELECT *FROM t_finance WHERE createdate = #{date}
     </select>
+    <select id="findByQueryParam2" resultType="java.util.Map">
+        SELECT createdate ,sum(money) as value
+        FROM t_finance
+        <where>
+            <if test="month != null and month != ''">
+                createdate like concat('%',#{month},'%')
+            </if>
+        </where>
+        order by createdate desc
+        limit ${start},${length}
+    </select>
+    <select id="countByQueryParam2" resultType="java.lang.Long">
+        SELECT count(*) FROM t_finance
+        <where>
+            <if test="month != null and month != ''">
+                createdate like concat('%',#{month},'%')
+            </if>
+        </where>
+    </select>
+    <select id="findPie" resultType="java.util.Map">
+        SELECT module as name ,sum(money) as value
+        FROM t_finance
+        WHERE confirmuser is not NULL and confirmdate = #{date} and type = #{type}
+        group by module
+    </select>
 </mapper>

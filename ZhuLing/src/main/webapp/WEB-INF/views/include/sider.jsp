@@ -34,7 +34,7 @@
                             <a href="/finance/day"><i class="fa fa-circle-o"></i> 日报</a>
                         </li>
                         <li class="${param.menu == 'finance_month' ? 'active' : ''}">
-                            <a href=""><i class="fa fa-circle-o"></i> 月报</a>
+                            <a href="/finance/month"><i class="fa fa-circle-o"></i> 月报</a>
                         </li>
                         <li class="${param.menu == 'finance_year' ? 'active' : ''}">
                             <a href=""><i class="fa fa-circle-o"></i> 年报</a>

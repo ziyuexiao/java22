@@ -30,7 +30,7 @@ public class FinanceController {
     private FinanceService financeService;
 
     /**
-     * 显示列表
+     * 显示日报列表
      * @return
      */
     @RequestMapping("/day")
@@ -124,5 +124,45 @@ public class FinanceController {
         outputStream.flush();
         outputStream.close();
     }
+    /**
+     * 日财务情况饼状图
+     */
+    @GetMapping("/day/{type}/{date}/pie")
+    @ResponseBody
+    public JsonResult pie(@PathVariable String type,@PathVariable String date,HttpServletResponse response){
+        type= "in".equals(type)?"收入":"支出";
+        List<Map<String,Object>> pieData = financeService.findPieDataByDay(date,type);
+        return new JsonResult(JsonResult.SUCCESS,"",pieData);
+    }
 
+    /**
+     * 显示月报列表
+     */
+    @GetMapping("/month")
+    public String monthreport(){
+        return "/finance/report/monthdetail";
+    }
+    @RequestMapping("/month/load")
+    @ResponseBody
+    public DataTablesResult monthLoad(@PathVariable String type,HttpServletRequest request){
+        String draw = request.getParameter("draw");
+        String start = request.getParameter("start");
+        String length = request.getParameter("length");
+        String month = request.getParameter("month");
+
+        Map<String,Object> queryParam = Maps.newHashMap();
+        queryParam.put("start",start);
+        queryParam.put("length",length);
+        queryParam.put("month",month);
+
+        //type= "in".equals(type)?"收入":"支出";
+        List<Map<String,Object>> financeList = financeService.findByQueryParam2(queryParam);
+        Long count = financeService.count();
+        Long filteredCount = financeService.countByQueryParam2(queryParam);
+
+
+
+        return new DataTablesResult(draw,count,filteredCount,financeList);
+
+    }
 }

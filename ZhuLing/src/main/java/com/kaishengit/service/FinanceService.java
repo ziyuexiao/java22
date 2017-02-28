@@ -18,4 +18,10 @@ public interface FinanceService {
     void confirmById(Integer id);
 
     List<Finance> findByCreatedate(String date);
+
+    List<Map<String, Object>> findByQueryParam2(Map<String, Object> queryParam);
+
+    Long countByQueryParam2(Map<String, Object> queryParam);
+
+    List<Map<String,Object>> findPieDataByDay(String date, String type);
 }

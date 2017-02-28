@@ -162,6 +162,18 @@
       <artifactId>poi</artifactId>
       <version>3.15</version>
     </dependency>
+    <!--做微信时向服务器发出http请求，来源于httpClient-->
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>3.6.0</version>
+    </dependency>
+    <!--guava中的gson-->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.7</version>
+    </dependency>
 
   </dependencies>
 

@@ -29,6 +29,9 @@
                 <!--static开头的url不登陆也能访问-->
                 /static/** = anon
 
+                <!--微信-->
+                /weixin/init = anon
+
                 <!--有管理员权限的才能访问/user和/setting/**-->
                 /user = roles[admin]
                 /setting/** = roles[admin]

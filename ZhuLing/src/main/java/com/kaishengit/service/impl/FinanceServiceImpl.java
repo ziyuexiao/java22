@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -52,5 +51,20 @@ public class FinanceServiceImpl implements FinanceService {
     @Override
     public List<Finance> findByCreatedate(String date) {
         return financeMapper.findByCreatedate(date);
+    }
+
+    @Override
+    public List<Map<String, Object>> findByQueryParam2(Map<String, Object> queryParam) {
+        return financeMapper.findByQueryParam2(queryParam);
+    }
+
+    @Override
+    public Long countByQueryParam2(Map<String, Object> queryParam) {
+        return financeMapper.countByQueryParam2(queryParam);
+    }
+
+    @Override
+    public List<Map<String, Object>> findPieDataByDay(String date, String type) {
+        return financeMapper.findPie(date,type);
     }
 }
