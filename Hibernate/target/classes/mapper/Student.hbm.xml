@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.kaishengit.pojo">
+    <class name="Student" table="student">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <!--
+            lazy:false 关闭懒加载
+            fetch="join"抓取，解决N+1问题
+        -->
+        <property name="studentname"/>
+        <many-to-one name="school" class="School" column="schoolid" fetch="join"/>
+
+    </class>
+</hibernate-mapping>
