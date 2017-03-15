@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.WorkerDispatchDocsMapper">
+
+    <insert id="batchSave">
+        INSERT INTO t_worker_dispatch_docs(sourcename,newname,dispatchid)
+        VALUES
+        <foreach collection="list" separator="," item="docs">
+            (#{docs.sourcename},#{docs.newname},#{docs.dispatchid})
+        </foreach>
+    </insert>
+    <select id="findWorkerDispatchDocsByDispatchid" resultType="com.kaishengit.pojo.WorkerDispatchDocs">
+        SELECT *FROM t_worker_dispatch_docs WHERE dispatchid = #{dispatchid}
+    </select>
+    <select id="findDispatchDocsByid" resultType="com.kaishengit.pojo.WorkerDispatchDocs">
+        SELECT *FROM t_worker_dispatch_docs WHERE id = #{id}
+    </select>
+</mapper>

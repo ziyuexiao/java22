@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.DeviceRentDocsMapper">
+    <insert id="batchSave">
+        INSERT INTO t_device_rent_docs(sourcename,newname,rentid)
+        VALUES
+        <foreach collection="list" item="file" separator=",">
+            (#{file.sourcename},#{file.newname},#{file.rentid})
+        </foreach>
+    </insert>
+    <select id="findDeviceRentDocsByRentid" resultType="com.kaishengit.pojo.DeviceRentDocs">
+        SELECT *FROM t_device_rent_docs WHERE rentid = #{rentid}
+    </select>
+    <select id="findRentDocsByid" resultType="com.kaishengit.pojo.DeviceRentDocs">
+        SELECT *FROM t_device_rent_docs WHERE id = #{docsid}
+    </select>
+</mapper>

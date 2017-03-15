@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+ 
+ <!-- 字符集过滤器 -->
+ <filter>
+  	<filter-name>EncodingFilter</filter-name>
+  	<filter-class>com.kaishengit.web.filter.EncodingFilter</filter-class>
+  	<init-param>
+  		<param-name>encoding</param-name>
+  		<param-value>UTF-8</param-value>
+  	</init-param> 
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>EncodingFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+ 
+ <!-- 登陆过滤器 -->
+ 
+ <filter>
+ 	<filter-name>ValidateFilter</filter-name>
+ 	<filter-class>com.kaishengit.web.filter.ValidateFilter</filter-class>
+ </filter>
+ <filter-mapping>
+ 	<filter-name>ValidateFilter</filter-name>
+ 	<url-pattern>/*</url-pattern>
+ 
+ </filter-mapping>
+ 
+ 
+ 
+  <servlet>
+  	<servlet-name>BookServlet</servlet-name>
+  	<servlet-class>com.kaishengit.web.BookServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>BookServlet</servlet-name>
+  	<url-pattern>/add</url-pattern>
+  </servlet-mapping>
+  
+ <servlet>
+    <servlet-name>ListBookServlet</servlet-name>
+    <servlet-class>com.kaishengit.web.ListBookServlet</servlet-class>
+  </servlet>
+   <servlet-mapping>
+    <servlet-name>ListBookServlet</servlet-name>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+  
+  
+   <servlet>
+    <servlet-name>DelBookServlet</servlet-name>
+    <servlet-class>com.kaishengit.web.DelBookServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DelBookServlet</servlet-name>
+    <url-pattern>/del</url-pattern>
+  </servlet-mapping>
+ 
+  <servlet>
+    <servlet-name>EditBookServlet</servlet-name>
+    <servlet-class>com.kaishengit.web.EditBookServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditBookServlet</servlet-name>
+    <url-pattern>/edit</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<servlet-class>com.kaishengit.web.LoginServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  
+  <welcome-file-list>
+  	<welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+   <!-- 配置session的过期时间（分钟） -->
+  <session-config>
+  	<session-timeout>20</session-timeout>
+  </session-config>
+  
+  <servlet>
+  <servlet-name>LogoutServlet</servlet-name>
+  <servlet-class>com.kaishengit.web.LogoutServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>LogoutServlet</servlet-name>
+  <url-pattern>/logou</url-pattern>
+  </servlet-mapping>
+  
+  <error-page>
+  <error-code>500</error-code>
+  <location>/WEB-INF/view/error/500.jsp</location>
+  </error-page>
+  
+   <error-page>
+  <error-code>404</error-code>
+  <location>/WEB-INF/view/error/404.jsp</location>
+  </error-page>
+  
+  <error-page>
+  <exception-type>com.kaishengit.exception.DataAccessException</exception-type>
+  <location>/WEB-INF/view/error/db.jsp</location>
+  </error-page>
+ 
+</web-app>

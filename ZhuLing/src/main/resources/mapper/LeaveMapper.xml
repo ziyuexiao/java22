@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.LeaveMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="Leave">
+      INSERT  INTO t_leave(process_instance_id,user_id,start_time,end_time,reason,leave_type
+        ,apply_time,reality_start_time,reality_end_time)
+        values(#{processInstanceId},#{userId},#{startTime},#{endTime},#{reason},#{leaveType},
+        #{applyTime},#{realityStartTime},#{realityEndTime})
+    </insert>
+    <update id="update" parameterType="Leave">
+        UPDATE t_leave
+        <set>
+
+            <if test="startTime!=null and startTime!= ''">
+                start_time=#{startTime},
+            </if>
+            <if test="endTime!=null and endTime!= ''">
+                end_time=#{endTime},
+            </if>
+            <if test="reason!=null and reason!= ''">
+                reason=#{reason} ,
+            </if>
+            <if test="leaveType!=null and leaveType!= ''">
+                leave_type=#{leaveType},
+            </if>
+
+            <if test="realityStartTime!=null and realityStartTime!= ''">
+                reality_start_time=#{realityStartTime},
+            </if>
+            <if test="realityEndTime!=null and realityEndTime!= ''">
+                reality_end_time=#{realityEndTime}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

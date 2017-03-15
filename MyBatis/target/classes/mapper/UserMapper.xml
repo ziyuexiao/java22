@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.UserMapper">
+    <cache/>
+
+    <!--useCache属性设置为false表示该查询结果不会放入到缓存中-->
+    <select id="findByid" useCache="false" parameterType="int" resultType="User">
+        SELECT*FROM user3 WHERE id = #{id}
+    </select>
+    <select id="findAll"  resultType="User">
+        SELECT*FROM user3
+    </select>
+   <!-- &lt;!&ndash;方法一&ndash;&gt;
+    <select id="findByusernameAndaddress" resultType="User">
+        SELECT *FROM user3 WHERE username = #{param1} and address = #{param2}
+    </select>
+    &lt;!&ndash;方法二&ndash;&gt;
+    <select id="findByusernameAndaddress2" resultType="User">
+        SELECT *FROM user3 WHERE username = #{name} and address = #{add}
+    </select>
+    &lt;!&ndash;方法三&ndash;&gt;
+    <select id="findByusernameAndaddress3" resultType="User">
+        SELECT *FROM user3 WHERE username = #{name} and address = #{add}
+    </select>-->
+    <!--动态sql-->
+    <select id="findByParam" parameterType="map" resultType="User">
+        <!--SELECT *FROM user3 WHERE username = #{username}
+        <if test="address!=null and address!=''">
+            AND address = #{address}
+        </if>-->
+
+        <!--SELECT *FROM user3
+         WHERE
+        <if test="username!=null and username!=''">
+           username = #{username}
+        </if>
+
+        <if test="address!=null and address!=''">
+            AND address = #{address}
+        </if>-->
+
+        <!--SELECT *FROM user3
+        <where>/*where做标签的时候可以，and可以自动添加和删除*/
+            <if test="username!=null and username!=''">
+                username = #{username}
+            </if>
+
+            <if test="address!=null and address!=''">
+                AND address = #{address}
+            </if>
+        </where>-->
+
+       <!-- SELECT *FROM user3
+        WHERE address = #{address}
+        <choose>
+            <when test="username!=null and username!=''">
+               AND username = #{username}
+            </when>
+            <otherwise>
+                AND 1=1
+            </otherwise>
+        </choose>-->
+
+        SELECT *FROM user3
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="username!=null and username!=''">
+                username = #{username}
+            </if>
+
+            <if test="address!=null and address!=''">
+                AND address = #{address}
+            </if>
+        </trim>
+
+    </select>
+
+    <select id="findByids" parameterType="list" resultType="User">
+        SELECT *FROM user3 WHERE id IN
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+
+    <!--
+       useGeneratedKeys:true 表示使用自动增长的主键
+       keyProperty:id 将自动增长的主键赋值给parameterType对应类型的id属性
+       flushCache:false 不刷新缓存
+   -->
+    <insert id="save" parameterType="User"
+            useGeneratedKeys="true" keyProperty="id" flushCache="false">
+        INSERT INTO user3(username,address) VALUES (#{username},#{address})
+    </insert>
+    <insert id="batchSave" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user3(username,address) VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{user.username},#{user.address})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="User">
+        UPDATE user3 SET username = #{username},address=#{address} where id = #{id}
+    </update>
+
+    <delete id="del" parameterType="int">
+        DELETE FROM user3 where id = #{id}
+    </delete>
+
+
+
+</mapper>

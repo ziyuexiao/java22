@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="shrioDbRealm"/>
+        <!--缓存控制器-->
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+    <!--使用时生命周期的管理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean id="shiroFilter"
+          class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!--登录地址-->
+        <property name="loginUrl" value="/"/>
+        <!--登录成功后的地址-->
+        <property name="successUrl" value="/home"/>
+        <!--没有权限给用户提示的页面-->
+        <property name="unauthorizedUrl" value="/403"/>
+        <!--权限配置-->
+        <property name="filterChainDefinitions">
+            <value>
+                <!--static开头的url不登陆也能访问-->
+                /static/** = anon
+
+                <!--微信-->
+                /weixin/init = anon
+
+                <!--有管理员权限的才能访问/user和/setting/**-->
+                /user = roles[admin]
+                /setting/** = roles[admin]
+                <!--全部需要认证（访问的url登陆后才能访问）-->
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+
+</beans>
