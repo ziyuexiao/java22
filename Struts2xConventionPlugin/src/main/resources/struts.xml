@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+
+    <include file="struts-uploaddownload.xml"/>
+    <include file="struts-gson.xml"/>
+    <include file="struts-json.xml"/>
+
+    <!--basePackage 定义公共配置 abstract="true"-->
+    <package name="basePackage" extends="struts-default,json-default" abstract="true">
+        <!--<interceptors>
+            <interceptor name="login" class="com.kaishengit.action.interceptor.LoginInterceptor">
+                <param name="namespace">/</param>&lt;!&ndash;拦截器属性配置&ndash;&gt;
+                <param name="actionNames">index,login</param>
+            </interceptor>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="login"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="myStack"/>
+
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="actionName">index</param>
+                <param name="namespace">/</param>
+            </result>
+        </global-results>
+-->
+    </package>
+
+</struts>

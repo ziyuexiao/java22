@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="filePackage" namespace="/file" extends="basePackage">
+        <action name="new" class="com.kaishengit.action.FileAction">
+            <result>/WEB-INF/views/file/upload.jsp</result>
+        </action>
+        <action name="upload" class="com.kaishengit.action.FileAction" method="upload">
+            <result type="redirectAction">
+                <param name="actionName">new</param>
+            </result>
+        </action>
+        <!--文件下载-->
+        <action name="download" class="com.kaishengit.action.FileAction" method="download">
+            <result type="stream">
+                <!-- 下载文件的mime类型 -->
+                <param name="contentType">${fileContentType}</param>
+                <!--下载文件大小-->
+                <param name="contentLength">${size}</param>
+                <!-- 下载文件的描述 -->
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <!-- 缓冲区大小 -->
+                <param name="bufferSize">1024</param>
+                <!-- 获取文件的流getxxx方法的名字(不包含get)  -->
+                <param name="inputName">inputStream</param>
+                <param name="allowCaching">true</param>
+                <param name="contentCharSet">UTF-8</param>
+            </result>
+        </action>
+    </package>
+
+</struts>
