@@ -1,0 +1,5 @@
+com\kaishengit\action\book\ListAction.class
+com\kaishengit\action\entity\User.class
+com\kaishengit\action\ProductTaskAction.class
+com\kaishengit\action\UserAction.class
+com\kaishengit\action\BaseAction.class
