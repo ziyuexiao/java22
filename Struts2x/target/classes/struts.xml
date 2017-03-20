@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+
+    <include file="struts-account.xml"/>
+    <include file="struts-task.xml"/>
+
+    <!--basePackage 定义公共配置 abstract="true"-->
+    <package name="basePackage" extends="struts-default" abstract="true">
+        <interceptors>
+            <interceptor name="login" class="com.kaishengit.action.interceptor.LoginInterceptor">
+                <param name="namespace">/</param><!--拦截器属性配置-->
+                <param name="actionNames">index,login</param>
+            </interceptor>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="login"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="myStack"/>
+
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="actionName">index</param>
+                <param name="namespace">/</param>
+            </result>
+        </global-results>
+
+    </package>
+
+
+
+
+
+
+
+
+
+    <!--&lt;!&ndash;修改default.properties中的值,修改默认的请求后缀&ndash;&gt;
+    &lt;!&ndash;<constant name="struts.action.extension" value="do,jsp"/>&ndash;&gt;
+    <package name="hellopackage" extends="struts-default" namespace="/">
+        &lt;!&ndash;修改默认拦截器&ndash;&gt;
+        <interceptors>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="timer"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="myStack"/>
+
+        <action name="hello" class="com.kaishengit.action.HelloAction">
+            &lt;!&ndash;
+                name : 返回结果的名称 默认值为success
+                type : 跳转类型，
+                        默认为dispatch Action -> View 请求转发
+                        chain Action -> Action 请求转发
+                        redirect Action-> View 重定向
+                        redirectAction  Action -> Action 重定向
+            &ndash;&gt;
+            <result name="success">/WEB-INF/views/hello.jsp</result>
+        </action>
+        <action name="list" class="com.kaishengit.action.HelloAction" method="list">&lt;!&ndash;method="list"  指定调用类中的哪个方法&ndash;&gt;
+            <result name="success" type="redirectAction">
+                <param name="namespace">/user</param>
+                <param name="actionName">new</param>
+                <param name="code">${code}</param>&lt;!&ndash;//http://localhost/user/new.action?code=1009&ndash;&gt;
+            </result>
+        </action>
+    </package>
+    <package name="userpackage" extends="struts-default" namespace="/user">
+        <action name="new" class="com.kaishengit.action.UserAction">
+            <result name="success">/WEB-INF/views/user/new.jsp</result>
+        </action>
+        <action name="save" class="com.kaishengit.action.UserAction" method="save">
+            <result type="redirectAction">
+                <param name="actionName">new</param>
+            </result>
+        </action>
+    </package>-->
+</struts>
