@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE  - $CONTENT_TITLE">模板页 layout</title>
+</head>
+<body>
+    <h1>header</h1>
+    <div layout:fragment="content">
+        <!--动态内容-->
+    </div>
+    <h1>
+        Footer
+        <p layout:fragment="footer"></p>
+    </h1>
+</body>
+</html>

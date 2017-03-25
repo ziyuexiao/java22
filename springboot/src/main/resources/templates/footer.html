@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FOOTER</title>
+</head>
+<body>
+    <div th:fragment="copy" >
+        @凯盛软件
+    </div>
+    <div id="copy" >
+        @凯盛软件22
+    </div>
+<div th:fragment="copy2(name,year)">
+    @<span th:text="${name}+'---'+${year}"></span>
+</div>
+</body>
+</html>
